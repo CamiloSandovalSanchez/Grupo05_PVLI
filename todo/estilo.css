@@ -1,0 +1,31 @@
+h1 {
+    color: lightcyan;
+    text-emphasis-color: darkcyan;
+    line-height: 4;
+    font-size: 56px;
+    text-shadow: 4px 4px 8px darkblue;
+}
+
+.clase {
+    color: lightcyan;
+    margin-left: 20%;
+    margin-right: 20%;
+    line-height: 1.5;
+    font-size: 25px;
+    text-shadow: 2px 2px 4px darkblue;
+}
+
+.center{
+    text-align: center;
+}
+.enumeracion {
+    text-align: center;
+    text-group-align: center;
+    color: darkviolet;
+    font-size: large;
+}
+.loguito {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
