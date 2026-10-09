@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Janitor, the Rotator </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="file:///C:/Users/camil/OneDrive/Documentos/SegundoGDV/Programaci%C3%B3nDeVideojuegosEnLenguajesInterpretados/REPO/Grupo05_PVLI/Smokepuff.png">
-    <link rel="stylesheet" href="estilo.css"> <!-- Esto cargaria un archivo de estilo, pero no es necesario en Fiddle porque lo hace automáticamente -->
-    <script src="script.js"></script> <!--Aquí podriamos cargar los scripts, también se puede en el <body>, y pasa lo mismo que con el css de antes, en verdad aquí no estamos cargando nada-->
+    <link rel="icon" type="image/x-icon" href="./assets/Smokepuff.png">
+    <link rel="stylesheet" href="./css/estilo.css"> <!-- Esto cargaria un archivo de estilo, pero no es necesario en Fiddle porque lo hace automáticamente -->
+    <script src="./src/lib/phaser.js"></script> <!--Aquí podriamos cargar los scripts, también se puede en el <body>, y pasa lo mismo que con el css de antes, en verdad aquí no estamos cargando nada-->
 </head>
 <style>
     body {
@@ -18,7 +18,11 @@
         <h1 class="center">
             Janitor, the Rotator
         </h1>
-        <h2 class=clase>DESCRIPCIÓN GENERAL</h2>
+        
+        <div id = "juego"></div>
+        <script src="./src/Game.js" type="module"></script>
+
+        <h2 class="clase">DESCRIPCIÓN GENERAL</h2>
 
         <p class="clase">
             Juego 2D con vista top-down centrado en un sistema de combate automático excéntrico junto a deckbuilding.
@@ -57,6 +61,7 @@
         </p>
 
     </div>
+    
 </body>
 <!--2023-2024-->
 </html>
