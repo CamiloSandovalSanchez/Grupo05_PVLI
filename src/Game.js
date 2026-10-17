@@ -5,7 +5,7 @@
 let config = {
     type: Phaser.AUTO,
     parent: "juego",
-    width:  800,
+    width:  80,
     height: 600,
     pixelArt: false,
 	scale: {
