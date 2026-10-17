@@ -1,11 +1,11 @@
 export class MainMenu extends Phaser.scene{
 
     preload(){
-		this.load.image('puff', 'assets/smokepuff.png');
+		this.load.image('puff', './assets/smokepuff.png');
 	}
 
     create(){
-        this.add.image(0, 0, 'puff').setOrigin(0, 0);
+        this.add.image(0, 0, 'puff').setOrigin(50, 50);
     }
 
 

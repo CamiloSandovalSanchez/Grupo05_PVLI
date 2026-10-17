@@ -1,4 +1,4 @@
-import menu from './Scenes/MainMenu.js';
+import menu from './scenes/MainMenu.js';
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
  * la clase Game de Phaser, encargada de crear e iniciar el juego.
@@ -6,13 +6,13 @@ import menu from './Scenes/MainMenu.js';
 let config = {
     type: Phaser.AUTO,
     parent: "juego",
-    width:  80,
+    width:  400,
     height: 600,
     pixelArt: false,
 	scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
     },
-    scene: [], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
+    scene: [menu], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
 };
 
 new Phaser.Game(config);
