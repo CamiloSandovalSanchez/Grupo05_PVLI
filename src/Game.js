@@ -6,7 +6,7 @@ import menu from './scenes/MainMenu.js';
 let config = {
     type: Phaser.AUTO,
     parent: "juego",
-    width:  400,
+    width:  800,
     height: 600,
     pixelArt: false,
 	scale: {
