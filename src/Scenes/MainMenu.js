@@ -13,7 +13,7 @@
 	}
 
     create(){
-        this.add.image(0, 0, 'puff').setOrigin(50, 50);
+        this.add.image(0, 0, 'puff').setOrigin(0, 0);
     }
 
 
