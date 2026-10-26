@@ -8,10 +8,11 @@ let config = {
     parent: "juego",
     scale:
     {
-        width:  800,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        width:  1200,
         height: 600,
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
     },
+    
     pixelArt: false,
     backgroundColor: '#FFFFFF',
     scene: [MainMenu], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
