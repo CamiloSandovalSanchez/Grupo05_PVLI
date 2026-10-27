@@ -9,7 +9,7 @@ let config = {
     scale:
     {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
-        width:  1200,
+        width:  800,
         height: 600,
     },
     
