@@ -57,8 +57,12 @@ export default class Element
     {
         if (!Object.values(Element.types).includes(otherElement)) // si Element.types no incluye el parámetro introducido, lanza excepción
         { 
-            console.error("En element.js, se ha llamado a isStrongAgainst con un parámetro que no era un Element.types. Devolverá falso.");
-            return false;
+            if (otherElement instanceof Element) return (this.#element < 5 && (this.#element + 1)%5 === otherElement.getType());
+            else 
+            {
+                console.error("En element.js, se ha llamado a isStrongAgainst con un parámetro que no era un Element.types. Devolverá falso.");
+                return false;
+            }
         }
         else return (this.#element < 5 && (this.#element + 1)%5 === otherElement);
     }
@@ -68,8 +72,12 @@ export default class Element
     {
         if (!Object.values(Element.types).includes(otherElement)) // si Element.types no incluye el parámetro introducido, lanza excepción
         { 
-            console.error("En element.js, se ha llamado a isWeakAgainst con un parámetro que no era un Element.types. Devolverá falso.");
-            return false;
+            if (otherElement instanceof Element) return (this.#element < 5 && (this.#element + 4)%5 === otherElement.getType());
+            else
+            {
+                console.error("En element.js, se ha llamado a isWeakAgainst con un parámetro que no era un Element.types. Devolverá falso.");
+                return false;
+            }
         }
         else return (this.#element < 5 && (this.#element + 4)%5 === otherElement);
     }

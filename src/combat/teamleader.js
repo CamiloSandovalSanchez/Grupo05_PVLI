@@ -45,8 +45,7 @@ export default class TeamLeader
     // Método para recibir desde el pentágono un ataque y procesarlo.
     recieveHit(attack)
     {
-        if (!(attack instanceof AttackInfo)) console.error("Se ha mandado al método recieveHit() de una Beast un parámetro que no es un AttackInfo. Se ignorará el ataque.");
-        else this.#lifeObject.hit(attack);
+        this.#lifeObject.hit(attack);
     }
 
     // Método para recibir desde el pentágono una curación y procesarla.

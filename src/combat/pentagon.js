@@ -43,8 +43,18 @@ export default class Pentagon
     constructor(beast1, beast2, beast3, beast4, beast5, leader, sprite, rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN)
     {
         // Asegurarse del tipo de las variables y asignación.
-        
-        if (sprite instanceof Sprite) this.#sprite = sprite;
+        if (leader instanceof TeamLeader) // obligatoriamente antes que las beast y sprite
+        {
+            this.#leader = leader;
+            this.#leader.setPentagon(this);
+        }
+        else throw new TypeError("Constructora de Pentagon llamada con parámetro leader sin ser instancia de TeamLeader");
+
+        if (sprite instanceof Sprite) 
+        {
+            this.#sprite = sprite; // obligatoriamente antes que las beast
+            if (!this.isPlayerPentagon()) this.#sprite.flipX = true;
+        }
         else throw new TypeError("Constructora de Pentagon llamada con parámetro sprite sin ser instancia de Sprite");
 
         if (beast1 instanceof Beast && beast2 instanceof Beast && beast3 instanceof Beast && beast4 instanceof Beast && beast5 instanceof Beast)
@@ -59,17 +69,10 @@ export default class Pentagon
             for (let i = 0; i < this.#beasts.length; ++i) 
             {
                 this.#beasts[i].setPentagon(this);
-                this.#beasts[i].setPosition(i+1);
+                this.#beasts[i].setPosition(i+1, this.isPlayerPentagon());
             }
         }
         else throw new TypeError("Constructora de Pentagon llamada con parámetros de bestia que no eran instancia de Beast");
-
-        if (leader instanceof TeamLeader) 
-        {
-            this.#leader = leader;
-            this.#leader.setPentagon(this);
-        }
-        else throw new TypeError("Constructora de Pentagon llamada con parámetro leader sin ser instancia de TeamLeader");
 
         if (typeof rotationCooldown === "number") this.#rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN;
         else throw new TypeError("Constructora de Pentagon llamada con parámetro rotationCooldwon no número");
@@ -105,7 +108,7 @@ export default class Pentagon
         if (clockwise) this.#beasts.unshift(this.#beasts.pop());  // si beasts = [A, B, C, D, E], lo cambia a [E, A, B, C, D]
         else this.#beasts.push(this.#beasts.shift());  // si beasts = [A, B, C, D, E], lo cambia a [B, C, D, E, A]
 
-        for(let i = 0; i < this.#beasts.length; ++i) this.#beasts[i].setPosition(i + 1);
+        for(let i = 0; i < this.#beasts.length; ++i) this.#beasts[i].setPosition(i + 1, this.isPlayerPentagon());
 
         // TODO: Lanzar evento de rotación
     }
@@ -125,7 +128,7 @@ export default class Pentagon
         if (attack instanceof AttackInfo) 
         {
             if(this.#beasts[attack.getAttackTarget() - 1].isDead() || attack.getAttackType() === AttackInfo.attackTypes.DIRECT)
-                this.leader.recieveHit(attack);
+                this.#leader.recieveHit(attack);
             else this.#beasts[attack.getAttackTarget() - 1].recieveHit(attack);
         }
         else console.error("Se esta intentando atacar en un Pentagon con un objeto que no es un AttackInfo. Se ignorará el ataque");

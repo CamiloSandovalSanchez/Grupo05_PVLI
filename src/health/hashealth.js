@@ -39,7 +39,8 @@ export default class HasHealth
     hit(attack)
     {
         // Cálculo de la modificación elemental del daño
-        let dealtDamage = attack.getDamage;
+        let dealtDamage = attack.getDamage();
+        console.log("Me pegan con " + dealtDamage + " de daño en la posicion " + attack.getAttackTarget());
         if ((attack.getElement().isStrongAgainst(this.#element))) dealtDamage = Math.round(dealtDamage * AttackInfo.ELEMENT_STRENGHT_MULTIPLIER);
         else if ((attack.getElement().isWeakAgainst(this.#element))) dealtDamage = Math.round(dealtDamage * AttackInfo.ELEMENT_WEAKNESS_MULTIPLIER);
 
@@ -47,8 +48,7 @@ export default class HasHealth
         switch(attack.getAttackType())
         {
             case (AttackInfo.attackTypes.NORMAL):
-                if (attack.getElement().isStrongAgainst(this.#element)) this.#currentLifePoints -= dealtDamage - this.#defense;
-                else
+                this.#currentLifePoints -= dealtDamage - this.#defense;
                 break;
             case (AttackInfo.attackTypes.PIERCING):
                 this.#currentLifePoints -= dealtDamage;
@@ -58,6 +58,8 @@ export default class HasHealth
                 break;
         }
         if (this.#currentLifePoints <= 0) this.death();
+
+        console.log("Me quedan " + this.#currentLifePoints + " de vida");
     }
 
     // Método para curar el objeto con vida.
@@ -83,6 +85,7 @@ export default class HasHealth
         deathInfo.setElement(this.#element);
 
         // TODO: Llamar al evento OnDeath();
+        console.log("Me mori!");
     }
 
     isDead()
