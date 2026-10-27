@@ -55,19 +55,34 @@ export default class Beast
     }
 
     // Método para establecer la posición de la bestia.
-    setPosition(newPosition)
+    setPosition(newPosition, isInPlayerPentagon)
     {
         if (typeof newPosition === "number" && newPosition >= 1 && newPosition <= 5) 
         {
-            this.#position = newPosition;
-            this.#attackObject.updatePosition(newPosition);
+            if (typeof isInPlayerPentagon === "boolean")
+            {
+                this.#position = newPosition;
+                this.#attackObject.updatePosition(newPosition);
 
-            // Render:
-            let angle = Phaser.Math.DegToRad(-90 + 18 - 72*(newPosition-1));
-            this.#sprite.x = this.#pentagon.getSpriteX() + 100*Math.cos(angle);
-            this.#sprite.y = this.#pentagon.getSpriteY() + 100*Math.sin(angle);
+                // Render:
+                let angle = Phaser.Math.DegToRad(-90 + 18 - 72*(newPosition-1));
+                
 
-            // TODO: Llamar al evento OnChangePosition;
+                if (isInPlayerPentagon) 
+                {
+                    this.#sprite.flipX = false;
+                    this.#sprite.x = this.#pentagon.getSpriteX() + 100*Math.cos(angle);
+                }
+                else
+                {
+                    this.#sprite.flipX = true;
+                    this.#sprite.x = this.#pentagon.getSpriteX() - 100*Math.cos(angle);
+                }
+                this.#sprite.y = this.#pentagon.getSpriteY() + 100*Math.sin(angle);
+                // TODO: Llamar al evento OnChangePosition;
+            }
+            else console.error("Se ha intentado cambiar la posición de una bestia introduciendo el parámetro isInPlayerPentagon no booleano")
+            
         }
         else console.error("Se ha intentado cambiar la posición de una bestia a una inválida.");
     }
@@ -81,8 +96,7 @@ export default class Beast
     // Método para recibir desde el pentágono un ataque y procesarlo.
     recieveHit(attack)
     {
-        if (!(attack instanceof AttackInfo)) console.error("Se ha mandado al método recieveHit() de una Beast un parámetro que no es un AttackInfo. Se ignorará el ataque.");
-        else this.#lifeObject.hit(attack);
+        this.#lifeObject.hit(attack);
     }
 
     // Método para recibir desde el pentágono una curación y procesarla.
