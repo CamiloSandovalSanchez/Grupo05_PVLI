@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 import Pentagon from '../combat/pentagon.js'
 import Beast from '../combat/beast.js';
 import TeamLeader from '../combat/teamleader.js';
@@ -14,16 +14,7 @@ import Element from '../utility/element.js';
     constructor()
     {
         super({key: 'nomenu'});
-=======
-/**
- * Clase escena de phaser
- * @extends Phaser.Scene
- */
- export default class MainMenu extends Phaser.Scene{
 
-    constructor(){
-        super({key: 'menu'});
->>>>>>> Stashed changes
     }
 
     preload()
@@ -31,7 +22,6 @@ import Element from '../utility/element.js';
 		this.load.image('puff', './assets/smokepuff.png');
 	}
 
-<<<<<<< Updated upstream
     create()
     {
         let elementAir = new Element(Element.types.AIR);
@@ -103,10 +93,7 @@ import Element from '../utility/element.js';
 
         this.pentagon1.setRivalPentagon(this.pentagon2);
         this.pentagon2.setRivalPentagon(this.pentagon1);
-=======
-    create(){
-        this.add.image(0, 0, 'puff').setOrigin(0, 0);
->>>>>>> Stashed changes
+
     }
 
     update(t, dt)
