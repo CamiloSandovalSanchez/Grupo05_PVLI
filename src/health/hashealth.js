@@ -39,6 +39,16 @@ export default class HasHealth extends EventTarget
         }
     }
 
+    getCurrentHealth()
+    {
+        return this.#currentLifePoints;
+    }
+
+    getMaxHealth()
+    {
+        return this.#maxLifePoints;
+    }
+
     // Método encargado de realizar el daño al objeto con vida según el tipo de ataque.
     // Asume que attack es un AttackInfo (delega la tarea al objeto que actua como intermediario; Beast o TeamLeader son ejemplos)
     hit(attack)
