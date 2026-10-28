@@ -1,5 +1,5 @@
-import ProtoCombat from './scenes/ProtoCombat.js';
-import MainMenu from './scenes/MainMenu.js';
+import MainMenu from "./scenes/MainMenu";
+import ProtoCombat from "./scenes/ProtoCombat";
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos

@@ -4,6 +4,9 @@ import AttackInfo from "../utility/attackinfo.js"
 
 import Sprite from "../render/sprite.js"
 
+// Clase encargada de representar un pentágono del juego.
+// Se encarga de recibir y repartir todas las interacciones del juego.
+// A su vez se encarga de llevar toda la lógica de las rotaciones del juego.
 export default class Pentagon
 {
     static DEFAULT_ROTATIONCOOLDOWN = 5;
@@ -20,7 +23,7 @@ export default class Pentagon
     #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación
     #rotationCooldown; // variable float que indica el cooldown entre rotaciones
     #leader = null; // referencia al objeto lider del pentágono
-    #rivalPentagon; // referencia al pentágono rival. No incluido en la constructora; usar el método SetRivalPentagon().
+    #rivalPentagon = null; // referencia al pentágono rival. No incluido en la constructora; usar el método SetRivalPentagon().
 
     #sprite; // sprite del pentágono
 
