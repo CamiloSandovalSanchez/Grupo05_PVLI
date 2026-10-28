@@ -4,13 +4,13 @@
 
     constructor()
     {
-        super({key: 'nomenu'});
+        super({key: 'MainMenu'});
 
     }
 
     preload()
     {
-		this.load.image('start', 'assets/START.png');
+		this.load.image('start', 'assets/start.png');
 	}
 
     create()
