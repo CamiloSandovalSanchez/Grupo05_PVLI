@@ -1,23 +1,27 @@
 import HasHealth from "../health/hashealth.js";
 import AttackHandler from "../attack/attackhandler.js";
+import AttackInfo from "../utility/attackinfo.js";
 import Pentagon from "./pentagon.js"
+import DeathInfo from "../utility/deathinfo.js";
 
 import Sprite from "../render/sprite.js"
 
-// Clase 
+// Clase que servirá como intermediaria para crear una bestia.
+// Contiene referencia a las clases básicas HasHealth y AttackHandler, llamando a sus métodos según corresponda.
 export default class Beast
 {
     // Variables de la clase:
     #lifeObject; // Referencia al objeto de tipo HasHealth que contiene la bestia.
     #attackObject; // Referencia al objetico de tipo AttackHandler que contiene la bestia.
-    #pentagon; // Referencia al pentágono que contiene la bestia.
-    #rivalPentagon; // Referencia al pentágono rival.
+    #pentagon = null; // Referencia al pentágono que contiene la bestia.
+    #rivalPentagon = null; // Referencia al pentágono rival.
     #position = 1; // Número entero que contiene la posición actual de la bestia. Ha de ser >= 1 y <= 5; Se inicializa adecuadamente al entrar en un pentágono.
 
     #sprite; // Sprite de la bestia
 
     constructor(lifeObject, attackObject, sprite)
     {
+        // Inicialización de las variables, comprobando su tipo.
         if (lifeObject instanceof HasHealth) this.#lifeObject = lifeObject;
         else throw new TypeError("Se ha intentado crear una Beast con el parámetro \"lifeObject\" sin ser instancia de HasHealth");
 
@@ -26,6 +30,11 @@ export default class Beast
 
         if (sprite instanceof Sprite) this.#sprite = sprite;
         else throw new TypeError("Se ha intentado crear una Beast con el parámetro \"sprite\" sin ser instancia de Sprite");
+
+        // Suscripción al evento "death" del lifeObject.
+        lifeObject.addEventListener("death", (event) => {this.onDeath(event)});
+        // Suscripción al evento "attack" del attackObject.
+        attackObject.addEventListener("attack",(event) => this.onAttack(event));
     }
 
     setPentagon(pentagon)
@@ -33,7 +42,6 @@ export default class Beast
         if (pentagon instanceof Pentagon) 
         {
             this.#pentagon = pentagon;
-            this.#attackObject.setPentagon(pentagon);
         }
         else throw new TypeError("Se ha intentado asignar a una Beast el parámetro \"pentagon\" sin ser una instancia de Pentagon");
     }
@@ -43,7 +51,6 @@ export default class Beast
         if (rivalPentagon instanceof Pentagon) 
         {
             this.#rivalPentagon = rivalPentagon;
-            this.#attackObject.setRivalPentagon(rivalPentagon);
         }
         else throw new TypeError("Se ha intentado asignar a una Beast  el parámetro \"rivalPentagon\" sin ser una instancia de Pentagon");
     }
@@ -111,7 +118,34 @@ export default class Beast
         return this.#lifeObject.isDead();
     }
 
-    // TODO: Recibir el evento de muerte de HasHealth y acabarlo
+    // Método que se envia como callback para escuchar la muerte del lifeObject
+    onDeath(event)
+    {
+        let deathInfo = event.detail;
+        if (deathInfo instanceof DeathInfo)
+        {
+            deathInfo.setBeastPosition(this.#position);
+            deathInfo.setIsOnPlayerTeam(this.#pentagon.isPlayerPentagon());
+            deathInfo.setIsLeader(false); // somos bestia
+
+            // TODO: Lanzar evento global mediante Phaser con la muerte
+        }
+        else console.error("Una Beast no ha recibido un objeto DeathInfo en la escucha onDeath. No se podrá lanzar el evento");
+
+        // TODO: Procesar la muerte de la bestia
+    }
+
+    // Método que se envia como callback para escuchar el ataque del attackObject
+    onAttack(event)
+    {
+        let attackInfo = event.detail;
+        if (attackInfo instanceof AttackInfo)
+        {
+            if (this.#rivalPentagon !== null) this.#rivalPentagon.attackPosition(attackInfo);
+            else console.error("Una Beast ha intentado atacar antes de recibir el setRivalPentagon(). No podrá atacar.");
+        }
+        else console.error("Una Beast no ha recibido un objeto AttackInfo en la escucha onAttack. No podrá acabar de atacar");
+    }
 
     // TODO: Llevar toda la lógica de dibujado en Phaser...
 }

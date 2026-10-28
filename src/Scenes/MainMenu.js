@@ -5,7 +5,7 @@ import TeamLeader from '../combat/teamleader.js';
 import Sprite from '../render/sprite.js';
 import HasHealth from '../health/hashealth.js';
 import AttackHandler from '../attack/attackhandler.js';
-import DeafultAttack from '../attack/defaultAttackHandler.js';
+import DeafultAttack from '../attack/defaultattackhandler.js';
 import AttackInfo from '../utility/attackinfo.js';
 import Element from '../utility/element.js';
 

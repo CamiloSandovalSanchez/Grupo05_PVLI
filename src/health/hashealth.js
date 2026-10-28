@@ -2,7 +2,10 @@ import Element from '../utility/element.js'
 import AttackInfo from '../utility/attackinfo.js'
 import DeathInfo from '../utility/deathinfo.js'
 
-export default class HasHealth
+// Clase padre de una variedad de objetos usados para representar vida.
+// Servirá para implementar diferentes mecánicas relacionadas con la parte de la "vida" y que la clase mediadora Beast sepa utilizarlas.
+// Extiende "EventTarget", una clase por defecto en JavaScript que permite incluir eventos.
+export default class HasHealth extends EventTarget
 {
     // Variables de la clase:
     #maxLifePoints; // vida máxima del objeto; no se curará más allá de este límite.
@@ -13,6 +16,8 @@ export default class HasHealth
     // Constructora de la clase
     constructor(healthPoints, defense, element)
     {
+        super(); // llamar a la construcotra de EventTarget
+        
         // Veríficación de los tipos de parámetros y su asignación.
         if (typeof healthPoints === "number" && healthPoints > 0)
         {
@@ -81,13 +86,15 @@ export default class HasHealth
     // Método de muerte del objeto con vida.
     death()
     {
+        // Inicialización del objeto deathInfo
         let deathInfo = new DeathInfo();
         deathInfo.setElement(this.#element);
 
-        // TODO: Llamar al evento OnDeath();
-        console.log("Me mori!");
+        // Lanza el evento "death" con el deathInfo incompleto.
+        this.dispatchEvent(new CustomEvent("death", {detail: deathInfo}))
     }
 
+    // Método que devuelve un booleano indicando si el objeto ha muerto
     isDead()
     {
         return (this.#currentLifePoints <= 0);
