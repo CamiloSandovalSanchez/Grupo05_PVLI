@@ -1,5 +1,5 @@
-import MainMenu from "./scenes/MainMenu";
-import ProtoCombat from "./scenes/ProtoCombat";
+import mainmenu from "./scenes/mainmenu";
+import protoCombat from "./scenes/protoCombat";
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
@@ -17,7 +17,7 @@ let config = {
     
     pixelArt: false,
     backgroundColor: '#FFFFFF',
-    scene: [MainMenu, ProtoCombat], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
+    scene: [mainmenu, protoCombat], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
 };
 
 new Phaser.Game(config);

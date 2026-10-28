@@ -1,10 +1,10 @@
 
 
- export default class MainMenu extends Phaser.Scene{
+ export default class mainmenu extends Phaser.Scene{
 
     constructor()
     {
-        super({key: 'MainMenu'});
+        super({key: 'mainmenu'});
 
     }
 
