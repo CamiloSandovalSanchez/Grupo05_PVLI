@@ -49,6 +49,15 @@ h1 {
     
 }
 
+.pantalla{
+    padding: 50px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 4px 4px #fb86ff;
+    border-color: #000000;
+    border-radius: 5px;
+    border-width: 40px;
+    background-image: linear-gradient(to bottom, #0e0019, #000000);
+}
 body{
     background-image: initial;
     background-image: linear-gradient(to bottom, #24003f, #1a0021);
