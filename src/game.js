@@ -1,5 +1,5 @@
 import mainmenu from "./scenes/mainmenu";
-import protoCombat from "./scenes/ProtoCombat";
+import protoCombat from "./scenes/combatScene";
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
@@ -11,7 +11,7 @@ let config = {
     scale:
     {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
-        width:  800,
+        width: 800,
         height: 600,
     },
     
