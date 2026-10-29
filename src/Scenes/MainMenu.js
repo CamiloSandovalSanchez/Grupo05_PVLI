@@ -1,12 +1,34 @@
-export class MainMenu extends Phaser.scene{
 
-    preload(){
-		this.load.image('puff', 'assets/smokepuff.png');
-	}
 
-    create(){
-        this.add.image(0, 0, 'puff').setOrigin(0, 0);
+ export default class mainmenu extends Phaser.Scene{
+
+    constructor()
+    {
+        super({key: 'mainmenu'});
+
     }
 
+    preload()
+    {
+		this.load.image('start', 'assets/start.png');
+	}
+
+    create()
+    {
+        const startButton = this.add.image(200,250,'start').setOrigin(0,0);
+
+        startButton.setInteractive({ useHandCursor: true});
+
+        startButton.on('pointerdown', () =>{
+            this.scene.start("ProtoCombat");
+        });
+
+
+    }
+
+    update(t, dt)
+    {
+        
+    }
 
 }
