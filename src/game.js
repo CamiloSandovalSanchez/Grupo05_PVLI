@@ -1,5 +1,5 @@
 import mainmenu from "./scenes/mainmenu";
-import protoCombat from "./scenes/protoCombat";
+import protoCombat from "./scenes/ProtoCombat";
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
