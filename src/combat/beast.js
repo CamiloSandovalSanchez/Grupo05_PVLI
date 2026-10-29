@@ -115,7 +115,12 @@ export default class Beast
     // Método para leer si la bestia a muerto.
     isDead()
     {
-        return this.#lifeObject.isDead();
+        if(this.#lifeObject.isDead()){
+            this.SetVisible(false);
+            this.#attackObject.disableAttack();
+            return true;
+        }
+        else return false;
     }
 
     // Método que se envia como callback para escuchar la muerte del lifeObject

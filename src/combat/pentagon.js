@@ -21,6 +21,7 @@ export default class Pentagon
     // (1, 2, 3 en el frente, de arriba a abajo, y 4, 5 en las traseras, de abajo a arriba)
     // En todo momento se usaran los indices indicados por este esquema; no se usará la convención de 0 a 4.
     #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación
+    #isRotating = false; // Variable que determina si el jugador está en medio de rotoar su pentágono o no
     #rotationCooldown; // variable float que indica el cooldown entre rotaciones
     #leader = null; // referencia al objeto lider del pentágono
     #rivalPentagon = null; // referencia al pentágono rival. No incluido en la constructora; usar el método SetRivalPentagon().
@@ -94,21 +95,32 @@ export default class Pentagon
     }
 
     // Método para intentar rotar el pentágono. Puede fallar, devolviendo un booleano que indica su éxito.
-    tryToRotate(clockwise)
+    tryToRotate(direction)
     {
         if (this.#tPassedSinceRotation >= this.#rotationCooldown) 
         {
-            this.forceRotate(clockwise);
+            this.forceRotate(direction);
             return true;
         }
         else return false;
     }
 
+    // Activa el modo rotación del jugador
+    activateRotation(){
+        this.#isRotating = true;
+    }
+
+    // Desactiva el modo rotación del jugador
+    deactivateRotation(){
+        this.isRotating = false;
+        // Se resetea el tiempo aquí para no deshabilitar la habilidad de rotar del jugador en medio de su fase de rotación
+        this.#tPassedSinceRotation = 0; 
+    }
+
     // Método para rotar el pentágono a la fuerza. No falla.
-    forceRotate(clockwise)
+    forceRotate(direction)
     {
-        this.#tPassedSinceRotation = 0;
-        if (clockwise) this.#beasts.unshift(this.#beasts.pop());  // si beasts = [A, B, C, D, E], lo cambia a [E, A, B, C, D]
+        if (direction) this.#beasts.unshift(this.#beasts.pop());  // si beasts = [A, B, C, D, E], lo cambia a [E, A, B, C, D]
         else this.#beasts.push(this.#beasts.shift());  // si beasts = [A, B, C, D, E], lo cambia a [B, C, D, E, A]
 
         for(let i = 0; i < this.#beasts.length; ++i) this.#beasts[i].setPosition(i + 1, this.isPlayerPentagon());
@@ -119,8 +131,11 @@ export default class Pentagon
     // Actualiza el pentágono.
     update(dt)
     {
+        // En modo rotación el tiempo no fluye
+        if (!this.isRotating){
         this.#tPassedSinceRotation += dt;
         for(let i = 0; i < this.#beasts.length; ++i) this.#beasts[i].update(dt);
+        }
 
         // TODO: Actualizar representación gráfica del cooldown de rotacion
     }
