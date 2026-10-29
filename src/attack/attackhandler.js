@@ -84,4 +84,8 @@ export default class AttackHandler extends EventTarget
         console.error("_canAttack no implementado");
         return false;
     }
+
+    disableAttack(){
+        this.#canAttack = false;
+    }
 }
