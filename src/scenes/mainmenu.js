@@ -1,11 +1,6 @@
 
-<<<<<<< Updated upstream
 
-
- export default class MainMenu extends Phaser.Scene{
-=======
  export default class mainmenu extends Phaser.Scene{
->>>>>>> Stashed changes
 
     constructor()
     {
