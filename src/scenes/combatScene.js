@@ -10,11 +10,11 @@ import DeafultAttack from '../attack/defaultAttackHandler.js';
 import AttackInfo from '../utility/attackinfo.js';
 import Element from '../utility/element.js';
 
- export default class ProtoCombat extends Phaser.Scene{
+ export default class combatScene extends Phaser.Scene{
 
     constructor()
     {
-        super({key: 'ProtoCombat'});
+        super({key: 'combatScene'});
 
     }
 

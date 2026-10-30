@@ -1,7 +1,11 @@
 
+<<<<<<< Updated upstream
 
 
  export default class MainMenu extends Phaser.Scene{
+=======
+ export default class mainmenu extends Phaser.Scene{
+>>>>>>> Stashed changes
 
     constructor()
     {
@@ -24,7 +28,7 @@
         startButton.setInteractive({ useHandCursor: true});
 
         startButton.on('pointerdown', () =>{
-            this.scene.start("ProtoCombat");
+            this.scene.start("combatScene");
         });
     }
 
