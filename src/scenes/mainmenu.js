@@ -1,6 +1,7 @@
 
 
- export default class mainmenu extends Phaser.Scene{
+
+ export default class MainMenu extends Phaser.Scene{
 
     constructor()
     {
@@ -10,6 +11,9 @@
 
     preload()
     {
+		this.load.image('puff', './assets/smokepuff.png');
+        this.load.image('healthbarBG', './assets/health_bar/health_background.png');
+        this.load.image('healthbarFILL', './assets/health_bar/health_fill.png');
 		this.load.image('start', 'assets/start.png');
 	}
 
@@ -22,8 +26,6 @@
         startButton.on('pointerdown', () =>{
             this.scene.start("ProtoCombat");
         });
-
-
     }
 
     update(t, dt)
