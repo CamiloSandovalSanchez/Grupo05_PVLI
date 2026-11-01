@@ -3,6 +3,7 @@ import TeamLeader from "./teamleader.js"
 import AttackInfo from "../utility/attackinfo.js"
 
 import SpriteContainer from "../render/spritecontainer.js"
+import RotateButton from "../render/filldisplay/rotatebutton.js"
 
 // Clase encargada de representar un pentágono del juego.
 // Se encarga de recibir y repartir todas las interacciones del juego.
@@ -20,13 +21,15 @@ export default class Pentagon
     //        3
     // (1, 2, 3 en el frente, de arriba a abajo, y 4, 5 en las traseras, de abajo a arriba)
     // En todo momento se usaran los indices indicados por este esquema; no se usará la convención de 0 a 4.
-    #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación
+    #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación. en ms
     #isRotating = false; // Variable que determina si el jugador está en medio de rotoar su pentágono o no
-    #rotationCooldown; // variable float que indica el cooldown entre rotaciones
+    #rotationCooldown; // variable float que indica el cooldown entre rotaciones. en s
     #leader = null; // referencia al objeto lider del pentágono
     #rivalPentagon = null; // referencia al pentágono rival. No incluido en la constructora; usar el método SetRivalPentagon().
 
     #sprite; // sprite del pentágono
+    #clockwiseRotationButton;
+    #counterClockwiseRotationButton;
 
     // Método para establecer el pentágono rival fuera de la constructora, evitando bucles infinitos de inicialización.
     setRivalPentagon(rivalPentagon)
@@ -69,7 +72,7 @@ export default class Pentagon
     }
 
     // Constructora de la clase.
-    constructor(beast1, beast2, beast3, beast4, beast5, leader, sprite, rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN)
+    constructor(beast1, beast2, beast3, beast4, beast5, leader, sprite, clockwiseRotationButton, counterClockwiseRotationButton, rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN)
     {
         // Asegurarse del tipo de las variables y asignación.
         this.setLeader(leader)// obligatoriamente antes que las beast y sprite
@@ -90,6 +93,17 @@ export default class Pentagon
         
         if (typeof rotationCooldown === "number") this.#rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN;
         else throw new TypeError("Constructora de Pentagon llamada con parámetro rotationCooldwon no número");
+
+        if (clockwiseRotationButton instanceof RotateButton) this.#clockwiseRotationButton = clockwiseRotationButton;
+        else throw new TypeError("Constructora de Pentagon llamada con parámetro clockwiseRotationButton sin ser instancia de RotateButton");
+        this.#clockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
+        this.#sprite.add(this.#clockwiseRotationButton);
+
+        if (counterClockwiseRotationButton instanceof RotateButton) this.#counterClockwiseRotationButton = counterClockwiseRotationButton;
+        else throw new TypeError("Constructora de Pentagon llamada con parámetro counterClockwiseRotationButton sin ser instancia de RotateButton");
+        this.#counterClockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
+        this.#sprite.add(this.#counterClockwiseRotationButton);
+            
     }
 
     // Método para acceder al valor de x del sprite del pentágono.
@@ -135,22 +149,22 @@ export default class Pentagon
 
         for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].setPosition(i + 1, this.isPlayerPentagon());
 
-        // TODO: Lanzar evento de rotación
+        this.#tPassedSinceRotation = 0;
+        
+        // Se lanza evento de rotación de pentágono.
+        this.#sprite.scene.events.emit('rotation');
     }
 
     // Actualiza el pentágono.
     update(dt)
     {
-        // En modo rotación el tiempo no fluye
-        if (!this.isRotating)
-        {
-            this.#tPassedSinceRotation += dt;
+        this.#tPassedSinceRotation += dt;
 
-            for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].update(dt);
+        for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].update(dt);
 
-
-            // TODO: Actualizar representación gráfica del cooldown de rotacion
-        }
+        // Actualización lógica y visual de los botones.
+        this.#clockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
+        this.#counterClockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
     }
 
     // Método para mandar un ataque a las bestias de este pentágono.
@@ -177,6 +191,16 @@ export default class Pentagon
                  this.#beasts[position - 1].recieveHeal(healPoints); // curar
         }
         else console.error("Se esta intentado curar en un Pentagono con una posición inválida. Se ignorará");
+    }
+
+    // Método para eliminar una bestia que ha muerto
+    beastDied(position)
+    {
+        if (position >= 1 && position <= 5)
+        {
+            this.#beasts[position - 1] = null; // dejar que el recolector de basura lo borre.
+        }
+        else console.error("Se ha mandado una posición errónea al beastDied() de un Pentagon.")
     }
 
     // Devuelve si este se trata del pentágono del jugador.

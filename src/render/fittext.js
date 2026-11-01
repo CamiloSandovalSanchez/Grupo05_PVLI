@@ -9,6 +9,9 @@ export default class FitText extends Phaser.GameObjects.Text
     #maxHeight;
     #maxWidth;
 
+    #resizeCallback; // guardar callback de resize para eliminarlo luego con .off
+    #scene; // guarda referencia a la escena ya que en destroy no existe.
+
     _fitTextReady = false;
 
     // Constructora de la clase.
@@ -23,7 +26,17 @@ export default class FitText extends Phaser.GameObjects.Text
 
         this.fitText();
 
-        scene.scale.on('resize', () => {this.fitText()})
+        this.#resizeCallback = () => {this.fitText()};
+        scene.scale.on('resize', this.#resizeCallback);
+
+        this.#scene = scene;
+    } 
+
+    // Método que llamar a la que se destruye el objeto.
+    destroy(fromScene)
+    {
+        this.#scene.scale.off('resize', this.#resizeCallback);
+        super.destroy(fromScene);
     }
 
     // Por búsqueda binaria encuentra entre MAX_FONTSIZE y MIN_FONTSIZE el tamaño adecuado para que el texto encaje.

@@ -55,7 +55,6 @@ export default class HasHealth extends EventTarget
     {
         // Cálculo de la modificación elemental del daño
         let dealtDamage = attack.getDamage();
-        console.log("Me pegan con " + dealtDamage + " de daño en la posicion " + attack.getAttackTarget());
         if ((attack.getElement().isStrongAgainst(this.#element))) dealtDamage = Math.round(dealtDamage * AttackInfo.ELEMENT_STRENGHT_MULTIPLIER);
         else if ((attack.getElement().isWeakAgainst(this.#element))) dealtDamage = Math.round(dealtDamage * AttackInfo.ELEMENT_WEAKNESS_MULTIPLIER);
 
@@ -73,8 +72,6 @@ export default class HasHealth extends EventTarget
                 break;
         }
         if (this.#currentLifePoints <= 0) this.death();
-
-        console.log("Me quedan " + this.#currentLifePoints + " de vida");
     }
 
     // Método para curar el objeto con vida.

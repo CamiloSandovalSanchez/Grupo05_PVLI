@@ -20,4 +20,9 @@ export default class SpriteContainer extends Phaser.GameObjects.Container
     {
         this.#sprite.flipX = bool;
     }
+
+    deathAnimation()
+    {
+        this.#sprite.setTint(0xffff0000); // tinta el sprite de rojo
+    }
 }
