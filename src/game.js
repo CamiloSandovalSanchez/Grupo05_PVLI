@@ -1,11 +1,6 @@
 
-<<<<<<< Updated upstream
-import mainmenu from "./scenes/mainmenu";
-import protoCombat from "./scenes/combatScene"; 
-=======
 import mainmenu from "./scenes/MainMenu.js";
 import combatScene from "./scenes/combatScene.js";
->>>>>>> Stashed changes
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
@@ -23,11 +18,7 @@ let config = {
     
     pixelArt: false,
     backgroundColor: '#FFFFFF',
-<<<<<<< Updated upstream
-    scene: [MainMenu, ProtoCombat], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
-=======
     scene: [mainmenu, combatScene], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
->>>>>>> Stashed changes
 };
 
 new Phaser.Game(config);
