@@ -13,7 +13,6 @@ export default class DeafultAttack extends AttackHandler
     _attack()
     {
         let attackPosition = this._attackInfo.getAttackOrigin();
-        console.log("Ataco desde la posición " + attackPosition);
         this._attackInfo.setAttackTarget(attackPosition);
         this.doAttack(this._attackInfo);
     }
