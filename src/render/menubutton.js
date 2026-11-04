@@ -21,8 +21,8 @@ export default class MenuButton extends Phaser.GameObjects.Sprite
         this.#buttonText.setResolution(100);
         
         
-        let txtHorzPadding = this.#buttonText.displayWidth/2;
-        let txtVertPadding = this.#buttonText.displayHeight/2;
+        var txtHorzPadding = this.#buttonText.displayWidth/2;
+        var txtVertPadding = this.#buttonText.displayHeight/2;
         this.#buttonText.x -= txtHorzPadding;
         this.#buttonText.y -= txtVertPadding;
 
@@ -32,8 +32,7 @@ export default class MenuButton extends Phaser.GameObjects.Sprite
         this.#roundRect = this.scene.add.rectangle( x, y, txtHorzPadding*2*1.2, txtVertPadding*2*1.4, color, 1);
         this.#roundRect.setRounded(16);
 
-        
-        const layer = this.scene.add.layer();
+        var layer = this.scene.add.layer();
 
         layer.add([this.#roundRect, this.#buttonText]);
 
@@ -42,9 +41,6 @@ export default class MenuButton extends Phaser.GameObjects.Sprite
         this.#roundRect.on('pointerdown', () =>{
             if(this.#targetScene != null){
                 this.scene.scene.start(this.#targetScene);
-            }
-            else{
-                this.scene.scene.start(this.scene);//recarga la misma escena
             }
         });
     }

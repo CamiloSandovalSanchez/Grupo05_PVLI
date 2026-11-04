@@ -8,6 +8,8 @@ import AttackHandler from '../attack/attackhandler.js';
 import AttackInfo from '../utility/attackinfo.js';
 import Element from '../utility/element.js';
 import beastManager from '../managers/beastmanager.js';
+import menuButton from '../render/menubutton.js';
+
 
  export default class combatScene extends Phaser.Scene{
 
@@ -74,6 +76,10 @@ import beastManager from '../managers/beastmanager.js';
 
         this.pentagon1.setRivalPentagon(this.pentagon2);
         this.pentagon2.setRivalPentagon(this.pentagon1);
+
+        var backButton = new menuButton("Back to menu", this, 100, 50, 'start', 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        
+        backButton.setScene('mainmenu');
     }
 
     update(t, dt)
