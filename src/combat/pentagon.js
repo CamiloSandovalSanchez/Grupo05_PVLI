@@ -61,12 +61,16 @@ export default class Pentagon
     // Método para establecer a una bestia en el pentágono.
     setBeast(beast, index)
     {
-        if (beast instanceof Beast || beast === null)
+        if (beast instanceof Beast)
         {
             this.#beasts[index] = beast;
             this.#beasts[index].setPentagon(this);
             this.#beasts[index].setPosition(index + 1, this.isPlayerPentagon());
             if (this.#rivalPentagon !== null) this.#beasts[index].setRivalPentagon(this.#rivalPentagon);
+        }
+        else if (beast === null)
+        {
+            this.#beasts[index] = beast;
         }
         else console.error("Se ha intentado establecer en Pentagon un parámetro de bestia que no era válida");
     }

@@ -7,84 +7,121 @@ import SpriteContainer from '../render/spritecontainer.js';
 import HealthBar from '../render/filldisplay/healthbar.js';
 import BuildupBar from '../render/filldisplay/buildupbar.js';
 
-export default class beastManager{
+export default class BeastManager
+{
+    // Variables de la clase:
     static instance;
-    
-    #tag = " ";
-    #type = " ";
+    #scene;
     
     // Las exceciones ya son controladas a la hora de tratar de crear una bestia asi que no son necesarias en este manager
-    constructor(Scene){
-        if (beastManager.instance){ return beastManager.instance; }
+    constructor(Scene)
+    {
+        if (BeastManager.instance){ return BeastManager.instance; }
+        
         // Todo el código del constructor aquí
-        this.scene = Scene;
-        beastManager.instance = this;
+        if (Scene instanceof Phaser.Scene) this.#scene = Scene;
+        else console.error("Constructora de BeastManager llamada con parámetro scene inválido. Funcionará mal");
+
+        BeastManager.instance = this;
     }
 
-    //Métodos de identificación de bestia
+    // Métodos de identificación de bestia
     // Uso de return para devolver la instancia a la bestia y así mantener todas sus funciones
-    spawnBeast(type, tag){
-        switch (type){
-            case "wind": return this.searchWind(tag);
-            case "fire": return this.searchFire(tag);
-            case "water": return this.searchWater(tag);
-            case "ground": return this.searchGround(tag);
-            case "electric": return this.searchElectric(tag);
-            case "life": return this.searchLife(tag);
-            case "death": return this.searchDeath(tag);
-            default: console.log("elemento de bestia no encontrado");
+    spawnBeast(element, tag)
+    {
+        element = Element.CheckForElement(element);
+        if (element instanceof Element)
+        {
+            switch (element.getType())
+            {
+                case (Element.types.AIR): 
+                    return this.searchAir(tag);
+                case (Element.types.FIRE): 
+                    return this.searchFire(tag);
+                case (Element.types.WATER): 
+                    return this.searchWater(tag);
+                case (Element.types.EARTH): 
+                    return this.searchEarth(tag);
+                case (Element.types.ELECTRIC): 
+                    return this.searchElectric(tag);
+                case (Element.types.LIFE): 
+                    return this.searchLife(tag);
+                case (Element.types.DEATH): 
+                    return this.searchDeath(tag);
+            }
+        }
+        else console.error("Se ha introducido en spawnBeast del BeastManager el parámetro elemento mal.")
+    }
+
+    searchAir(tag)
+    {
+        switch(tag)
+        {
+            case "smokepuff": 
+                return this.loadSmokePuff();
+            default: 
+                console.log("no se ha encontrado a la bestia de viento");
         }
     }
 
-    searchWind(tag){
-        switch(tag){
-            case "smokepuff": return this.loadSmokePuff();
-            default: console.log("no se ha encontrado a la bestia de viento");
-        }
-    }
-
-    searchFire(tag){
-        switch(tag){
+    searchFire(tag)
+    {
+        switch(tag)
+        {
             default: console.log("no se ha encontrado a la bestia de fuego");
         }
     }
     searchWater(tag){
         switch(tag){
-            case "aquablob": return this.loadAquaBlob();
-            default: console.log("no se ha encontrado a la bestia de agua");
+            case "aquablob": 
+                return this.loadAquaBlob();
+            default: 
+                console.log("no se ha encontrado a la bestia de agua");
         }
     }
-    searchGround(tag){
-        switch(tag){
-            default: console.log("no se ha encontrado a la bestia de tierra");
+    searchEarth(tag){
+        switch(tag)
+        {
+            default: 
+                console.log("no se ha encontrado a la bestia de tierra");
         }
     }
     searchElectric(tag){
-        switch(tag){
-            default: console.log("no se ha encontrado a la bestia de eléctrico");
+        switch(tag)
+        {
+            default: 
+                console.log("no se ha encontrado a la bestia de eléctrico");
         }
     }
-    searchLife(tag){
-        switch(tag){
-            default: console.log("no se ha encontrado a la bestia de vida");
+    searchLife(tag)
+    {
+        switch(tag)
+        {
+            default: 
+                console.log("no se ha encontrado a la bestia de vida");
         }
     }
-    searchDeath(tag){
-        switch(tag){
-            default: console.log("no se ha encontrado a la bestia de muerte");
+    searchDeath(tag)
+    {
+        switch(tag)
+        {
+            default: 
+                console.log("no se ha encontrado a la bestia de muerte");
         }
     }
 
-    // Métodos de creación de bestias
+    /* ------------------------------------------- */
+    /* ----- Métodos de creación de bestias ------ */
+    /* ------------------------------------------- */
     
     loadSmokePuff(){
         let elementAir = new Element(Element.types.AIR);
         return new Beast(
                     new HasHealth(100, 5, elementAir),
                     new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementAir), 5000),
-                    new SpriteContainer(this.scene, 0, 0, 'puff', 0),
-                    new HealthBar(this.scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
-                    new BuildupBar(this.scene, 0, -100, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+                    new SpriteContainer(this.#scene, 0, 0, 'puff', 0),
+                    new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, -100, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
 
     loadAquaBlob(){
