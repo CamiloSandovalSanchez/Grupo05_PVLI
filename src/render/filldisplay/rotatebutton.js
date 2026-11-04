@@ -10,13 +10,15 @@ export default class RotateButton extends FillDisplay
     #clockwiseRotation; // booleano que indica si la rotación es a reloj o a contrareloj.
     #foregroundSprite; // sprite dibujado por encima del background y del fillsprite.
 
-    constructor(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, textureForeground, frameForeground, currentRotationTime, maxRotationCooldown, clockwiseRotation)
+    constructor(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, textureForeground, frameForeground, currentRotationTime, maxRotationCooldown, clockwiseRotation, {textLeftMargin = 0, textRightMargin = 0, textTopMargin = 0, textBottomMargin = 0})
     {
         super(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, FillSprite.types.DOWN, Math.max(0, (maxRotationCooldown - currentRotationTime/1000)).toFixed(2));
         this.updateButton(currentRotationTime, maxRotationCooldown);
 
         // Color del texto.
         this._text.setColor('#000000');
+        // Margenes del texto.
+        this._text.setMargin({leftMargin: textLeftMargin, rightMargin: textRightMargin, topMargin: textTopMargin, bottomMargin: textBottomMargin});
 
         // Se añade por encima del resto el sprite del foreground.
         this.#foregroundSprite = new Phaser.GameObjects.Sprite(scene, 0, 0, textureForeground, frameForeground);
