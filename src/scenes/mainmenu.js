@@ -1,4 +1,4 @@
-
+import menuButton from '../render/menubutton.js';
 
  export default class mainmenu extends Phaser.Scene{
 
@@ -11,6 +11,7 @@
     preload()
     {
 		this.load.image('puff', './assets/smokepuff.png');
+        this.load.image('Logo', './assets/Logo_JanitorTheRotator.png');
         this.load.image('healthbarBG', './assets/health_bar/health_background.png');
         this.load.image('healthbarFILL', './assets/health_bar/health_fill.png');
 		this.load.image('start', 'assets/start.png');
@@ -25,13 +26,20 @@
 
     create()
     {
-        const startButton = this.add.image(200,250,'start').setOrigin(0,0);
+        const logoImage= this.add.image(400,125,'Logo');
+        logoImage.setScale(0.5);
 
-        startButton.setInteractive({ useHandCursor: true});
+        //const startButton = this.add.image(200,250,'start').setOrigin(0,0);
+        //logoImage.setScale(0.75);
 
-        startButton.on('pointerdown', () =>{
-            this.scene.start("combatScene");
-        });
+
+        const startButton = new menuButton("START", this, 400, 320, 'start', 0.75, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        
+        startButton.setScene('combatScene')
+
+        const creditButton = new menuButton("CREDITOS", this, 400, 480, 'start', 0.75, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        
+        creditButton.setScene('')
     }
 
     update(t, dt)
