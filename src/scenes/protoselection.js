@@ -9,12 +9,7 @@ import TeamLeader from "../combat/teamleader.js";
 import HasHealth from "../health/hashealth.js";
 import AttackHandler from "../attack/attackhandler.js";
 import AttackInfo from "../utility/attackinfo.js";
-<<<<<<< HEAD
-
-=======
-import BeastManager from "../managers/beastmanager.js";
 import Inventory from "../selection/dropzones/inventory.js";
->>>>>>> origin/main
 
 export default class ProtoSelection extends Phaser.Scene{
 
@@ -44,11 +39,9 @@ export default class ProtoSelection extends Phaser.Scene{
     create()
     {
         new BeastManager(this);
-
-<<<<<<< HEAD
         this.dragqueen = new DraggableBeastCard(this, 100, 100, 'puff', 0, Element.types.AIR, BeastManager.tags.SmokePuff);
         this.dragqueen.setDepth(1);
-=======
+
         this.dragqueenElectric = new DraggableBeastCard(this, 100, 100, 'puff', 0, Element.types.ELECTRIC, "smokepuff");
         this.dragqueenElectric.setDepth(1);
 
@@ -57,7 +50,6 @@ export default class ProtoSelection extends Phaser.Scene{
 
         this.dragqueen3Water = new DraggableBeastCard(this, 200, 200, 'puff', 0, Element.types.WATER, "smokepuff");
         this.dragqueen3Water.setDepth(1);
->>>>>>> origin/main
 
         this.leader1 = new TeamLeader(true,
                     new HasHealth(500, 5, Element.types.AIR),

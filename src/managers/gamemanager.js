@@ -1,5 +1,5 @@
-import SceneManager from "./scenemanager";
-import Pentagon from "../combat/pentagon";
+import SceneManager from "./scenemanager.js";
+import Pentagon from "../combat/pentagon.js";
 
 export default class GameManager{
 
