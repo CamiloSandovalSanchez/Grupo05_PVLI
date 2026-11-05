@@ -25,8 +25,7 @@ export default class GameManager{
         GameManager.instance = this;
     }
 
-    update(dt){
-
+    creatureHasDied(){
         if(this.#playerPentagon instanceof Pentagon){
             if(this.#playerPentagon.emptyPentagon()){
                 this.victory();
@@ -40,11 +39,16 @@ export default class GameManager{
         }
     }
 
-    victory(){
+    update(dt){
 
+        
+    }
+
+    victory(){
+        // Meter la win screen
     }
 
     defeat(){
-
-    }
+        // Meter la lose screen
+    } 
 }

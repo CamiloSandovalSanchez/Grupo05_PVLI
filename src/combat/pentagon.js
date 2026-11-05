@@ -4,6 +4,7 @@ import AttackInfo from "../utility/attackinfo.js"
 
 import SpriteContainer from "../render/spritecontainer.js"
 import RotateButton from "../render/filldisplay/rotatebutton.js"
+import GameManager from "../managers/gameManager.js"
 
 // Clase encargada de representar un pentágono del juego.
 // Se encarga de recibir y repartir todas las interacciones del juego.
