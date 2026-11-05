@@ -11,7 +11,7 @@ import menuButton from '../render/menubutton.js';
     preload()
     {
 		this.load.image('puff', './assets/smokepuff.png');
-        this.load.image('Logo', './assets/Logo_JanitorTheRotator.png');
+        this.load.image('Logo', './assets/logo_janitortherotator.png');
         this.load.image('healthbarBG', './assets/health_bar/health_background.png');
         this.load.image('healthbarFILL', './assets/health_bar/health_fill.png');
 		this.load.image('start', 'assets/start.png');
