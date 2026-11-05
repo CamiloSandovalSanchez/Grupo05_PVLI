@@ -2,6 +2,7 @@ export default class DraggableSprite extends Phaser.GameObjects.Sprite
 {
     // Variables de la clase:
     #ghostImage = null; // Imagen fantasma que se dejará atras al recoger el sprite
+    #eventTarget = new EventTarget();
 
     constructor(scene, x, y, texture, frame)
     {
@@ -36,6 +37,10 @@ export default class DraggableSprite extends Phaser.GameObjects.Sprite
                 {
                     this.setPosition(this.#ghostImage.x, this.#ghostImage.y); // devolverla a su posición original
                 }
+                else // se solto en una nueva zona
+                {
+                    this.#eventTarget.dispatchEvent(new CustomEvent("onDropZoneLand", {detail: this}))
+                }
 
                 // Se borra la imagen fantasma
                 if (this.#ghostImage) // si es distinta de null
@@ -55,4 +60,13 @@ export default class DraggableSprite extends Phaser.GameObjects.Sprite
     {
         console.error("Se ha preguntado el readInfo() no implementado de un DraggableSprite");
     }
+
+    // Evento que se lanza cuando el DraggableSprite se suelta sobre una nueva DropZone.
+    // Recibe un callback con parámetro de entrada event.detail (un objeto clase DraggableSprite).
+    onDropZoneLand(callback)
+    {
+        this.#eventTarget.addEventListener("onDropZoneLand", (event) => {callback(event.detail)});
+    }
+
+    
 }

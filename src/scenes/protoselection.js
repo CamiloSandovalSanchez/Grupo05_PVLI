@@ -9,6 +9,7 @@ import HasHealth from "../health/hashealth.js";
 import AttackHandler from "../attack/attackhandler.js";
 import AttackInfo from "../utility/attackinfo.js";
 import BeastManager from "../managers/beastmanager.js";
+import Inventory from "../selection/dropzones/inventory.js";
 
 export default class ProtoSelection extends Phaser.Scene{
 
@@ -31,14 +32,22 @@ export default class ProtoSelection extends Phaser.Scene{
         this.load.image('rotatebuttonFILL', './assets/rotate_button/rotatebutton_fill.png');
         this.load.image('rotatebuttonFG_CW', './assets/rotate_button/rotatebutton_clockwise_foreground.png');
         this.load.image('rotatebuttonFG_CCW', './assets/rotate_button/rotatebutton_counterclockwise_foreground.png');
+
+        this.load.spritesheet('elementIcons', './assets/elements_spritesheet100x100.png', {frameWidth: 100, frameHeight: 100});
 	}
 
     create()
     {
         new BeastManager(this);
 
-        this.dragqueen = new DraggableBeastCard(this, 100, 100, 'puff', 0, Element.types.AIR, "smokepuff");
-        this.dragqueen.setDepth(1);
+        this.dragqueenElectric = new DraggableBeastCard(this, 100, 100, 'puff', 0, Element.types.ELECTRIC, "smokepuff");
+        this.dragqueenElectric.setDepth(1);
+
+        this.dragqueen2Water = new DraggableBeastCard(this, 200, 100, 'puff', 0, Element.types.WATER, "smokepuff");
+        this.dragqueen2Water.setDepth(1);
+
+        this.dragqueen3Water = new DraggableBeastCard(this, 200, 200, 'puff', 0, Element.types.WATER, "smokepuff");
+        this.dragqueen3Water.setDepth(1);
 
         this.leader1 = new TeamLeader(true,
                     new HasHealth(500, 5, Element.types.AIR),
@@ -51,6 +60,7 @@ export default class ProtoSelection extends Phaser.Scene{
         );
 
         this.selector = new PentagonSelector(this, 500, 100, 'start', 0, this.pentagon, 2);
+        this.inventory = new Inventory(this, 600, 300, 'start', 0, 'elementIcons', 5, 50)
     }
 
     update(t, dt)
