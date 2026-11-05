@@ -1,7 +1,7 @@
 
-import mainmenu from "./scenes/MainMenu.js";
-import combatScene from "./scenes/combatScene.js";
-import creditScene from "./scenes/creditScene.js";
+import mainmenu from "./scenes/mainmenu.js";
+import combatScene from "./scenes/combatscene.js";
+import creditScene from "./scenes/creditscene.js";
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos

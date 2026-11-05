@@ -4,11 +4,11 @@ import SpriteContainer from "../render/spritecontainer.js";
 import RotateButton from "../render/filldisplay/rotatebutton.js";
 import PentagonSelector from "../selection/dropzones/pentagonselector.js";
 import Element from "../utility/element.js";
+import BeastManager from "../managers/beastmanager.js";
 import TeamLeader from "../combat/teamleader.js";
 import HasHealth from "../health/hashealth.js";
 import AttackHandler from "../attack/attackhandler.js";
 import AttackInfo from "../utility/attackinfo.js";
-import BeastManager from "../managers/beastmanager.js";
 import Inventory from "../selection/dropzones/inventory.js";
 
 export default class ProtoSelection extends Phaser.Scene{
@@ -39,6 +39,8 @@ export default class ProtoSelection extends Phaser.Scene{
     create()
     {
         new BeastManager(this);
+        this.dragqueen = new DraggableBeastCard(this, 100, 100, 'puff', 0, Element.types.AIR, BeastManager.tags.SmokePuff);
+        this.dragqueen.setDepth(1);
 
         this.dragqueenElectric = new DraggableBeastCard(this, 100, 100, 'puff', 0, Element.types.ELECTRIC, "smokepuff");
         this.dragqueenElectric.setDepth(1);
