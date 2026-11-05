@@ -39,13 +39,22 @@ export default class HasHealth extends EventTarget
         }
     }
 
+    getCurrentHealth()
+    {
+        return this.#currentLifePoints;
+    }
+
+    getMaxHealth()
+    {
+        return this.#maxLifePoints;
+    }
+
     // Método encargado de realizar el daño al objeto con vida según el tipo de ataque.
     // Asume que attack es un AttackInfo (delega la tarea al objeto que actua como intermediario; Beast o TeamLeader son ejemplos)
     hit(attack)
     {
         // Cálculo de la modificación elemental del daño
         let dealtDamage = attack.getDamage();
-        console.log("Me pegan con " + dealtDamage + " de daño en la posicion " + attack.getAttackTarget());
         if ((attack.getElement().isStrongAgainst(this.#element))) dealtDamage = Math.round(dealtDamage * AttackInfo.ELEMENT_STRENGHT_MULTIPLIER);
         else if ((attack.getElement().isWeakAgainst(this.#element))) dealtDamage = Math.round(dealtDamage * AttackInfo.ELEMENT_WEAKNESS_MULTIPLIER);
 
@@ -63,8 +72,6 @@ export default class HasHealth extends EventTarget
                 break;
         }
         if (this.#currentLifePoints <= 0) this.death();
-
-        console.log("Me quedan " + this.#currentLifePoints + " de vida");
     }
 
     // Método para curar el objeto con vida.

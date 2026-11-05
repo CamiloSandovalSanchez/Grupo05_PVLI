@@ -2,7 +2,8 @@ import Beast from "./beast.js"
 import TeamLeader from "./teamleader.js"
 import AttackInfo from "../utility/attackinfo.js"
 
-import Sprite from "../render/sprite.js"
+import SpriteContainer from "../render/spritecontainer.js"
+import RotateButton from "../render/filldisplay/rotatebutton.js"
 
 // Clase encargada de representar un pentágono del juego.
 // Se encarga de recibir y repartir todas las interacciones del juego.
@@ -20,13 +21,15 @@ export default class Pentagon
     //        3
     // (1, 2, 3 en el frente, de arriba a abajo, y 4, 5 en las traseras, de abajo a arriba)
     // En todo momento se usaran los indices indicados por este esquema; no se usará la convención de 0 a 4.
-    #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación
+    #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación. en ms
     #isRotating = false; // Variable que determina si el jugador está en medio de rotoar su pentágono o no
-    #rotationCooldown; // variable float que indica el cooldown entre rotaciones
+    #rotationCooldown; // variable float que indica el cooldown entre rotaciones. en s
     #leader = null; // referencia al objeto lider del pentágono
     #rivalPentagon = null; // referencia al pentágono rival. No incluido en la constructora; usar el método SetRivalPentagon().
 
     #sprite; // sprite del pentágono
+    #clockwiseRotationButton;
+    #counterClockwiseRotationButton;
 
     // Método para establecer el pentágono rival fuera de la constructora, evitando bucles infinitos de inicialización.
     setRivalPentagon(rivalPentagon)
@@ -36,50 +39,75 @@ export default class Pentagon
             this.#rivalPentagon = rivalPentagon;
             for(let i = 0; i < this.#beasts.length; ++i) 
             {
-                if (this.#beasts[i] != null) this.#beasts[i].setRivalPentagon(rivalPentagon);
+                if (this.#beasts[i] !== null) this.#beasts[i].setRivalPentagon(rivalPentagon);
             }
-            if (this.#leader != null) this.#leader.setRivalPentagon(rivalPentagon);
+            if (this.#leader !== null) this.#leader.setRivalPentagon(rivalPentagon);
         }
         else throw new TypeError("SetRivalPentagon llamado en un Pentagon con un parámetro que no era instancia de Pentagon");
     }
 
-    // Constructora de la clase.
-    constructor(beast1, beast2, beast3, beast4, beast5, leader, sprite, rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN)
+    // Método para establecer a un lider en el pentágono.
+    setLeader(leader)
     {
-        // Asegurarse del tipo de las variables y asignación.
-        if (leader instanceof TeamLeader) // obligatoriamente antes que las beast y sprite
+        if (leader instanceof TeamLeader)
         {
             this.#leader = leader;
             this.#leader.setPentagon(this);
+            if (this.#rivalPentagon !== null) this.#leader.setRivalPentagon(this.#rivalPentagon);
         }
-        else throw new TypeError("Constructora de Pentagon llamada con parámetro leader sin ser instancia de TeamLeader");
+        else console.error("Se ha intentado establecer en Pentagon el parámetro leader sin ser instancia de TeamLeader")
+    }
 
-        if (sprite instanceof Sprite) 
+    // Método para establecer a una bestia en el pentágono.
+    setBeast(beast, index)
+    {
+        if (beast instanceof Beast)
+        {
+            this.#beasts[index] = beast;
+            this.#beasts[index].setPentagon(this);
+            this.#beasts[index].setPosition(index + 1, this.isPlayerPentagon());
+            if (this.#rivalPentagon !== null) this.#beasts[index].setRivalPentagon(this.#rivalPentagon);
+        }
+        else if (beast === null)
+        {
+            this.#beasts[index] = beast;
+        }
+        else console.error("Se ha intentado establecer en Pentagon un parámetro de bestia que no era válida");
+    }
+
+    // Constructora de la clase.
+    constructor(beast1, beast2, beast3, beast4, beast5, leader, sprite, clockwiseRotationButton, counterClockwiseRotationButton, rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN)
+    {
+        // Asegurarse del tipo de las variables y asignación.
+        this.setLeader(leader)// obligatoriamente antes que las beast y sprite
+
+        if (sprite instanceof SpriteContainer) 
         {
             this.#sprite = sprite; // obligatoriamente antes que las beast
-            if (!this.isPlayerPentagon()) this.#sprite.flipX = true;
+            if (!this.isPlayerPentagon()) this.#sprite.flipX(true);
         }
         else throw new TypeError("Constructora de Pentagon llamada con parámetro sprite sin ser instancia de Sprite");
 
-        if (beast1 instanceof Beast && beast2 instanceof Beast && beast3 instanceof Beast && beast4 instanceof Beast && beast5 instanceof Beast)
-        {
-            this.#beasts[0] = beast1;
-            this.#beasts[1] = beast2;
-            this.#beasts[2] = beast3;
-            this.#beasts[3] = beast4;
-            this.#beasts[4] = beast5;
-
-            //  Introducimos a las bestias al pentágono adecuadamente.
-            for (let i = 0; i < this.#beasts.length; ++i) 
-            {
-                this.#beasts[i].setPentagon(this);
-                this.#beasts[i].setPosition(i+1, this.isPlayerPentagon());
-            }
-        }
-        else throw new TypeError("Constructora de Pentagon llamada con parámetros de bestia que no eran instancia de Beast");
-
+        //  Introducimos a las bestias al pentágono adecuadamente.
+        this.setBeast(beast1, 0);
+        this.setBeast(beast2, 1);
+        this.setBeast(beast3, 2);
+        this.setBeast(beast4, 3);
+        this.setBeast(beast5, 4);
+        
         if (typeof rotationCooldown === "number") this.#rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN;
         else throw new TypeError("Constructora de Pentagon llamada con parámetro rotationCooldwon no número");
+
+        if (clockwiseRotationButton instanceof RotateButton) this.#clockwiseRotationButton = clockwiseRotationButton;
+        else throw new TypeError("Constructora de Pentagon llamada con parámetro clockwiseRotationButton sin ser instancia de RotateButton");
+        this.#clockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
+        this.#sprite.add(this.#clockwiseRotationButton);
+
+        if (counterClockwiseRotationButton instanceof RotateButton) this.#counterClockwiseRotationButton = counterClockwiseRotationButton;
+        else throw new TypeError("Constructora de Pentagon llamada con parámetro counterClockwiseRotationButton sin ser instancia de RotateButton");
+        this.#counterClockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
+        this.#sprite.add(this.#counterClockwiseRotationButton);
+            
     }
 
     // Método para acceder al valor de x del sprite del pentágono.
@@ -123,21 +151,24 @@ export default class Pentagon
         if (direction) this.#beasts.unshift(this.#beasts.pop());  // si beasts = [A, B, C, D, E], lo cambia a [E, A, B, C, D]
         else this.#beasts.push(this.#beasts.shift());  // si beasts = [A, B, C, D, E], lo cambia a [B, C, D, E, A]
 
-        for(let i = 0; i < this.#beasts.length; ++i) this.#beasts[i].setPosition(i + 1, this.isPlayerPentagon());
+        for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].setPosition(i + 1, this.isPlayerPentagon());
 
-        // TODO: Lanzar evento de rotación
+        this.#tPassedSinceRotation = 0;
+        
+        // Se lanza evento de rotación de pentágono.
+        this.#sprite.scene.events.emit('rotation');
     }
 
     // Actualiza el pentágono.
     update(dt)
     {
-        // En modo rotación el tiempo no fluye
-        if (!this.isRotating){
         this.#tPassedSinceRotation += dt;
-        for(let i = 0; i < this.#beasts.length; ++i) this.#beasts[i].update(dt);
-        }
 
-        // TODO: Actualizar representación gráfica del cooldown de rotacion
+        for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].update(dt);
+
+        // Actualización lógica y visual de los botones.
+        this.#clockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
+        this.#counterClockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
     }
 
     // Método para mandar un ataque a las bestias de este pentágono.
@@ -145,9 +176,11 @@ export default class Pentagon
     {
         if (attack instanceof AttackInfo) 
         {
-            if(this.#beasts[attack.getAttackTarget() - 1].isDead() || attack.getAttackType() === AttackInfo.attackTypes.DIRECT)
-                this.#leader.recieveHit(attack);
-            else this.#beasts[attack.getAttackTarget() - 1].recieveHit(attack);
+            if (this.#beasts[attack.getAttackTarget() - 1] === null || // si no hay bestia
+             this.#beasts[attack.getAttackTarget() - 1].isDead() || // o si el objetivo ha muerto
+              attack.getAttackType() === AttackInfo.attackTypes.DIRECT) // o si el tipo de ataque es directo
+                this.#leader.recieveHit(attack); // atacar al lider
+            else this.#beasts[attack.getAttackTarget() - 1].recieveHit(attack); // atacar a la bestia
         }
         else console.error("Se esta intentando atacar en un Pentagon con un objeto que no es un AttackInfo. Se ignorará el ataque");
     }
@@ -157,9 +190,21 @@ export default class Pentagon
     {
         if (position >= 1 && position <= 5) 
         {
-            if (!this.#beasts[position - 1].isDead()) this.#beasts[position - 1].recieveHeal(healPoints);
+            if (this.#beasts[position - 1] !== null && // si hay bestia
+                !this.#beasts[position - 1].isDead()) // y no ha muerto
+                 this.#beasts[position - 1].recieveHeal(healPoints); // curar
         }
         else console.error("Se esta intentado curar en un Pentagono con una posición inválida. Se ignorará");
+    }
+
+    // Método para eliminar una bestia que ha muerto
+    beastDied(position)
+    {
+        if (position >= 1 && position <= 5)
+        {
+            this.#beasts[position - 1] = null; // dejar que el recolector de basura lo borre.
+        }
+        else console.error("Se ha mandado una posición errónea al beastDied() de un Pentagon.")
     }
 
     // Devuelve si este se trata del pentágono del jugador.

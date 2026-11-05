@@ -23,6 +23,18 @@ export default class AttackHandler extends EventTarget
         else throw new TypeError("Se ha intentado crear un AttackHandler con el parámetro \"attackCooldown\" invalido");
     }
 
+    // Devuelve el cooldown entre ataques del objeto.
+    getAttackCooldown()
+    {
+        return this.#attackCooldown;
+    }
+
+    // Devuelve el buildup actual del objeto de ataque.
+    getBuildup()
+    {
+        return this.#attackBuildup;
+    }
+
     // Actualiza la posición del objeto en el pentágono.
     updatePosition(newPosition)
     {
@@ -42,6 +54,7 @@ export default class AttackHandler extends EventTarget
                 this._attack(); // crear el ataque
             } 
         }
+        else this.resetBuildup();
     }
 
     // Método para reiniciar el buildup del ataque.
@@ -83,9 +96,5 @@ export default class AttackHandler extends EventTarget
         // console.log("Preguntan si puede atacar");
         console.error("_canAttack no implementado");
         return false;
-    }
-
-    disableAttack(){
-        this.#canAttack = false;
     }
 }
