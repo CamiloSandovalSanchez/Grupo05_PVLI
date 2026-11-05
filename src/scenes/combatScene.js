@@ -31,15 +31,15 @@ import menuButton from '../render/menubutton.js';
         //let attackInfo = new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir);
         
         
-        this.puff1 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff1 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff2 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff2 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
         
-        this.puff3 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff3 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff4 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff4 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff5 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff5 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
         
         this.leader1 = new TeamLeader(true,
             new HasHealth(500, 5, elementAir),
@@ -53,15 +53,15 @@ import menuButton from '../render/menubutton.js';
         );
             
 
-        this.puff6 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff6 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
         
-        this.puff7 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff7 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff8 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff8 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff9 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff9 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff10 = this.BeastManager.spawnBeast(elementAir, "smokepuff");
+        this.puff10 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
         
         this.leader2 = new TeamLeader(false,
             new HasHealth(500, 5, elementAir),

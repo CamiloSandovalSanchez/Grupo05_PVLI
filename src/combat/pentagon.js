@@ -212,4 +212,16 @@ export default class Pentagon
     {
         return this.#leader.getIsPlayer();
     }
+
+    emptyPentagon(){
+        notEmpty = false;
+        let i = 0;
+
+        while(!notEmpty && i < this.#beasts.length){
+            if (!this.#beasts[i].isDead) notEmpty = true;
+            i++;
+        }
+
+        return notEmpty;
+    }
 }
