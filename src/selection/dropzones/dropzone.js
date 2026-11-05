@@ -38,4 +38,14 @@ export default class DropZone extends Phaser.GameObjects.Container
     {
         console.error("Se ha llamado al whenDropped de una DropZone no implementado.")
     }
+
+    getWidth()
+    {
+        return this.#dropzoneSprite.width;
+    }
+
+    getHeight()
+    {
+        return this.#dropzoneSprite.height;
+    }
 }
