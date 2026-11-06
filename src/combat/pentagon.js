@@ -4,6 +4,7 @@ import AttackInfo from "../utility/attackinfo.js"
 
 import SpriteContainer from "../render/spritecontainer.js"
 import RotateButton from "../render/filldisplay/rotatebutton.js"
+import GameManager from "../managers/gameManager.js"
 
 // Clase encargada de representar un pentágono del juego.
 // Se encarga de recibir y repartir todas las interacciones del juego.
@@ -84,6 +85,7 @@ export default class Pentagon
         if (sprite instanceof SpriteContainer) 
         {
             this.#sprite = sprite; // obligatoriamente antes que las beast
+            this.#sprite.setDepth(0);
             if (!this.isPlayerPentagon()) this.#sprite.flipX(true);
         }
         else throw new TypeError("Constructora de Pentagon llamada con parámetro sprite sin ser instancia de Sprite");
@@ -108,6 +110,8 @@ export default class Pentagon
         this.#counterClockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
         this.#sprite.add(this.#counterClockwiseRotationButton);
             
+        
+
     }
 
     // Método para acceder al valor de x del sprite del pentágono.

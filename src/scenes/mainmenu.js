@@ -11,7 +11,11 @@ import menuButton from '../render/menubutton.js';
     preload()
     {
 		this.load.image('puff', './assets/smokepuff.png');
-        this.load.image('Logo', './assets/logo_janitortherotator.png');
+        this.load.image('logo', './assets/logo_janitortherotator.png');
+        this.load.image('janitor', './assets/janitor.png');
+        this.load.image('fondo', './assets/fondo_jantherot.png');
+        this.load.image('fondoPasillo', './assets/pasillo_jantherot.png');
+        this.load.image('pent', './assets/pentagon.png');
         this.load.image('healthbarBG', './assets/health_bar/health_background.png');
         this.load.image('healthbarFILL', './assets/health_bar/health_fill.png');
 		this.load.image('start', 'assets/start.png');
@@ -26,9 +30,11 @@ import menuButton from '../render/menubutton.js';
 
     create()
     {
-        this.add.rectangle( 0, 0, 800, 600, 0x320045, 1).setOrigin(0,0);
+        var bgImage = this.add.image(0,0,'fondo').setOrigin(0,0);
+        bgImage.setScale(0.288);
+        this.add.rectangle( 0, 0, 800, 600, 0x320045, 0.5).setOrigin(0,0);
 
-        var logoImage= this.add.image(400,125,'Logo');
+        var logoImage= this.add.image(400,125,'logo');
         logoImage.setScale(0.5);
 
         //const startButton = this.add.image(200,250,'start').setOrigin(0,0);
