@@ -47,6 +47,8 @@ export default class Beast
         lifeObject.addEventListener("death", (event) => {this.onDeath(event)});
         // Suscripción al evento "attack" del attackObject.
         attackObject.addEventListener("attack",(event) => this.onAttack(event));
+        
+        this.#sprite.setDepth(1);
     }
 
     setPentagon(pentagon)

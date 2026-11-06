@@ -85,6 +85,7 @@ export default class Pentagon
         if (sprite instanceof SpriteContainer) 
         {
             this.#sprite = sprite; // obligatoriamente antes que las beast
+            this.#sprite.setDepth(0);
             if (!this.isPlayerPentagon()) this.#sprite.flipX(true);
         }
         else throw new TypeError("Constructora de Pentagon llamada con parámetro sprite sin ser instancia de Sprite");
@@ -109,6 +110,8 @@ export default class Pentagon
         this.#counterClockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
         this.#sprite.add(this.#counterClockwiseRotationButton);
             
+        
+
     }
 
     // Método para acceder al valor de x del sprite del pentágono.
