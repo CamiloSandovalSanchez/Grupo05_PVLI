@@ -1,4 +1,4 @@
-
+//Comentario para realizar un cambio
 import mainmenu from "./scenes/mainmenu.js";
 import combatScene from "./scenes/combatscene.js";
 import creditScene from "./scenes/creditscene.js";
