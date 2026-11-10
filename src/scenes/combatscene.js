@@ -8,6 +8,7 @@ import AttackHandler from '../attack/attackhandler.js';
 import AttackInfo from '../utility/attackinfo.js';
 import Element from '../utility/element.js';
 import BeastManager from '../managers/beastmanager.js';
+import GameManager from '../managers/gamemanager.js';
 import menuButton from '../render/menubutton.js';
 
 
@@ -30,6 +31,7 @@ import menuButton from '../render/menubutton.js';
         bgImage.setScale(0.338);
         
         this.BeastManager = new BeastManager(this);
+        this.GameManager = new GameManager(this);
         let elementAir = new Element(Element.types.AIR);
         //let attackInfo = new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir);
         
