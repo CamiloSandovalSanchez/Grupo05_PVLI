@@ -20,7 +20,7 @@ import menuButton from '../render/menubutton.js';
 
     }
 
-    preload()
+    preload()   
     {
 
 	}
