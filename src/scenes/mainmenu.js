@@ -41,19 +41,18 @@ import menuButton from '../render/menubutton.js';
         //logoImage.setScale(0.75);
 
 
-        var startButton = new menuButton("START", this, 400, 320, 'start', 0.75, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        
-        startButton.setScene('combatScene')
+        this.startButton = new menuButton("START", this, 0.5, 0.6, 0.5, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.startButton.setScene('combatScene')
 
-        var creditButton = new menuButton("CREDITOS", this, 400, 480, 'start', 0.75, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        
-        creditButton.setScene('creditScene')
+        this.creditButton = new menuButton("CREDITOS", this, 0.5, 0.8, 0.5, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.creditButton.setScene('creditScene')
         
     }
 
     update(t, dt)
     {
-        
+        this.startButton.update(dt);
+        this.creditButton.update(dt);
     }
 
 }

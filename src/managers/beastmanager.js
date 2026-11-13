@@ -125,9 +125,9 @@ export default class BeastManager
         return new Beast(
                     new HasHealth(100, 5, elementAir),
                     new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementAir), 5000),
-                    new SpriteContainer(this.#scene, 0, 0, 'puff', 0),
+                    new SpriteContainer(this.#scene, 0, 0, 1, 'puff', 0),
                     new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
-                    new BuildupBar(this.#scene, 0, -100, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+                    new BuildupBar(this.#scene, 0, 50, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
 
     #loadAquaBlob(){

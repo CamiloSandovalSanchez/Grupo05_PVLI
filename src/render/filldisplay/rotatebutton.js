@@ -10,9 +10,16 @@ export default class RotateButton extends FillDisplay
     #clockwiseRotation; // booleano que indica si la rotación es a reloj o a contrareloj.
     #foregroundSprite; // sprite dibujado por encima del background y del fillsprite.
 
-    constructor(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, textureForeground, frameForeground, currentRotationTime, maxRotationCooldown, clockwiseRotation, {textLeftMargin = 0, textRightMargin = 0, textTopMargin = 0, textBottomMargin = 0})
+    constructor(scene, x, y, scale, textureBackground, frameBackground, textureFillSprite, frameFillSprite, textureForeground, frameForeground, currentRotationTime, maxRotationCooldown, clockwiseRotation, {textLeftMargin = 0, textRightMargin = 0, textTopMargin = 0, textBottomMargin = 0})
     {
-        super(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, FillSprite.types.DOWN, Math.max(0, (maxRotationCooldown - currentRotationTime/1000)).toFixed(2));
+        super(scene, 0, 0, 1, textureBackground, frameBackground, textureFillSprite, frameFillSprite, FillSprite.types.DOWN, Math.max(0, (maxRotationCooldown - currentRotationTime/1000)).toFixed(2));
+        
+        this.setScale(scale);
+        const sceneW = this.scene.sys.game.config.width;
+        const sceneH = this.scene.sys.game.config.height;
+        this.x = x*sceneW;
+        this.y = y*sceneH;
+
         this.updateButton(currentRotationTime, maxRotationCooldown);
 
         // Color del texto.
