@@ -33,6 +33,7 @@ import menuButton from '../render/menubutton.js';
         this.BeastManager = new BeastManager(this);
         this.GameManager = new GameManager(this);
         let elementAir = new Element(Element.types.AIR);
+        let elementWater = new Element(Element.types.WATER);
         //let attackInfo = new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir);
         
         
@@ -62,7 +63,7 @@ import menuButton from '../render/menubutton.js';
         
         this.puff7 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 
-        this.puff8 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff8 = this.BeastManager.spawnBeast(elementWater, BeastManager.tags.AquaBlob);
 
         this.puff9 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
 

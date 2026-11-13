@@ -9,7 +9,7 @@
 
         preload()
         {
-            this.load.image('fondoMapa', './assets/MapPlaceHolder.png')
+            this.load.image('fondoMapa', './assets/mapplaceholder.png')
         }
 
         create() 
@@ -73,6 +73,11 @@
                     this.physics.moveTo(this.janitor, casilla.x, casilla.y, 240);
                 });
             }
+
+            
+            this.backButton = new menuButton("Back to menu", this, 0.125, 0.05, 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+                    
+            this.backButton.setScene('mainmenu');
         }
 
         update(t, dt) {
@@ -86,5 +91,7 @@
                 this.casillaActual = this.destino;
                 this.destino = null;
             }
+
+            this.backButton.update(dt);
         }
     }

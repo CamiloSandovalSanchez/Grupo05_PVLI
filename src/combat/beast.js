@@ -23,6 +23,7 @@ export default class Beast
     #healthBar; // HealthBar de la bestia
     #buildupBar; // Barra de buildup de la bestia
     #beastHurt; // Barra de buildup de la bestia
+    #hurtCount; // Barra de buildup de la bestia
 
     constructor(lifeObject, attackObject, sprite, healthBar, buildupBar)
     {
@@ -53,7 +54,7 @@ export default class Beast
 
         this.#beastHurt = false;
 
-        this.hurtCount = 50;
+        this.#hurtCount = 50;
     }
 
     setPentagon(pentagon)
@@ -201,10 +202,11 @@ export default class Beast
     // TODO: Llevar toda la lógica de dibujado en Phaser...
     updateAnimations()
     {
+        //this.#sprite.hurtAnimation(this.#hurtCount);
+        console.log(this.#hurtCount);
         if(this.#beastHurt){
-            this.hurtCount--;
-            this.#sprite.hurtAnimation(this.hurtCount);
-            if (this.hurtCount == 0) {this.#beastHurt = 50; this.#beastHurt = false;}
+            this.#hurtCount--;
+            if (this.#hurtCount == 0) {this.#hurtCount = 50; this.#beastHurt = false;}
         }
     }
 }
