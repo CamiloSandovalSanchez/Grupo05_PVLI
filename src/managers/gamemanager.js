@@ -7,36 +7,23 @@ export default class GameManager{
     static instance;
     #scene;
     #battleOn;
-    #playerPentagon;
-    #enemyPentagon;
 
-    constructor(Scene, AllyPentagon, EnemyPentagon)
+    constructor(Scene)
     {
         if (GameManager.instance){ return GameManager.instance; }
         
         // Todo el código del constructor aquí
+        this.#battleOn = true;
         if (Scene instanceof Phaser.Scene) this.#scene = Scene;
         else console.error("Constructora de BeastManager llamada con parámetro scene inválido. Funcionará mal");
-
-        // Introducimos los pentágonos rival y de jugador para poder palicar las condiciones de fin de batalla
-        this.#playerPentagon = AllyPentagon;
-        this.#enemyPentagon = EnemyPentagon;
-
+        
         GameManager.instance = this;
     }
 
-    creatureHasDied(){
-        if(this.#playerPentagon instanceof Pentagon){
-            if(this.#playerPentagon.emptyPentagon()){
-                this.victory();
-            }
-        }
-
-        if(this.#enemyPentagon instanceof Pentagon){
-            if(this.#playerPentagon.emptyPentagon()){
-                this.defeat();
-            }
-        }
+    emptiedPentagon(player){
+        this.#battleOn = false;
+        if (!player) this.#victory();
+        else this.#defeat();
     }
 
     update(dt){
@@ -44,11 +31,17 @@ export default class GameManager{
         
     }
 
-    victory(){
+    #victory(){
+        console.log("Has ganado");
         // Meter la win screen
     }
 
-    defeat(){
+    #defeat(){
+        console.log("Has perdiiido");
         // Meter la lose screen
-    } 
+    }
+    
+    getBattleOn(){
+        return this.#battleOn;
+    }
 }

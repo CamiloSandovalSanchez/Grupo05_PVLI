@@ -145,6 +145,8 @@ export default class Beast
     // Método que se envia como callback para escuchar la muerte del lifeObject
     onDeath(event)
     {
+        this.#attackObject.resetBuildup();
+
         let deathInfo = event.detail;
         if (deathInfo instanceof DeathInfo)
         {

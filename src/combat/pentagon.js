@@ -23,7 +23,7 @@ export default class Pentagon
     // (1, 2, 3 en el frente, de arriba a abajo, y 4, 5 en las traseras, de abajo a arriba)
     // En todo momento se usaran los indices indicados por este esquema; no se usará la convención de 0 a 4.
     #tPassedSinceRotation = 0; // variable float para almacenar cuanto tiempo ha pasado desde la última rotación. en ms
-    #isRotating = false; // Variable que determina si el jugador está en medio de rotoar su pentágono o no
+    // #isRotating = false; // Variable que determina si el jugador está en medio de rotoar su pentágono o no
     #rotationCooldown; // variable float que indica el cooldown entre rotaciones. en s
     #leader = null; // referencia al objeto lider del pentágono
     #rivalPentagon = null; // referencia al pentágono rival. No incluido en la constructora; usar el método SetRivalPentagon().
@@ -109,8 +109,6 @@ export default class Pentagon
         else throw new TypeError("Constructora de Pentagon llamada con parámetro counterClockwiseRotationButton sin ser instancia de RotateButton");
         this.#counterClockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
         this.#sprite.add(this.#counterClockwiseRotationButton);
-            
-        
 
     }
 
@@ -137,6 +135,7 @@ export default class Pentagon
         else return false;
     }
 
+    /*
     // Activa el modo rotación del jugador
     activateRotation(){
         this.#isRotating = true;
@@ -148,6 +147,7 @@ export default class Pentagon
         // Se resetea el tiempo aquí para no deshabilitar la habilidad de rotar del jugador en medio de su fase de rotación
         this.#tPassedSinceRotation = 0; 
     }
+        */
 
     // Método para rotar el pentágono a la fuerza. No falla.
     forceRotate(direction)
@@ -166,13 +166,16 @@ export default class Pentagon
     // Actualiza el pentágono.
     update(dt)
     {
-        this.#tPassedSinceRotation += dt;
+        // Solo sí la batalla está activa se ejecutará el update del pentágono
+        if (GameManager.instance.getBattleOn()){
+            this.#tPassedSinceRotation += dt;
 
-        for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].update(dt);
+            for(let i = 0; i < this.#beasts.length; ++i) if (this.#beasts[i] !== null) this.#beasts[i].update(dt);
 
-        // Actualización lógica y visual de los botones.
-        this.#clockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
-        this.#counterClockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
+            // Actualización lógica y visual de los botones.
+            this.#clockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
+            this.#counterClockwiseRotationButton.updateButton(this.#tPassedSinceRotation/1000, this.#rotationCooldown);
+        }
     }
 
     // Método para mandar un ataque a las bestias de este pentágono.
@@ -209,6 +212,7 @@ export default class Pentagon
             this.#beasts[position - 1] = null; // dejar que el recolector de basura lo borre.
         }
         else console.error("Se ha mandado una posición errónea al beastDied() de un Pentagon.")
+        this.emptyPentagon();
     }
 
     // Devuelve si este se trata del pentágono del jugador.
@@ -218,14 +222,16 @@ export default class Pentagon
     }
 
     emptyPentagon(){
-        notEmpty = false;
+        let empty = true;
         let i = 0;
 
-        while(!notEmpty && i < this.#beasts.length){
-            if (!this.#beasts[i].isDead) notEmpty = true;
+        while(empty && i < this.#beasts.length)
+        {
+            if (!(this.#beasts[i] === null)) empty = false;
             i++;
         }
-
-        return notEmpty;
+        if (empty) {
+            GameManager.instance.emptiedPentagon(this.isPlayerPentagon());
+        };
     }
 }

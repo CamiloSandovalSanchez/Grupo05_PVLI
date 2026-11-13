@@ -44,6 +44,7 @@ import menuButton from '../render/menubutton.js';
         this.startButton = new menuButton("START", this, 0.5, 0.6, 0.5, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
         this.startButton.setScene('combatScene')
 
+
         this.creditButton = new menuButton("CREDITOS", this, 0.5, 0.8, 0.5, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
         this.creditButton.setScene('creditScene')
         
