@@ -22,6 +22,8 @@ export default class Beast
     #sprite; // Sprite de la bestia
     #healthBar; // HealthBar de la bestia
     #buildupBar; // Barra de buildup de la bestia
+    #beastHurt; // Barra de buildup de la bestia
+    #hurtCount; // Barra de buildup de la bestia
 
     constructor(lifeObject, attackObject, sprite, healthBar, buildupBar)
     {
@@ -48,7 +50,11 @@ export default class Beast
         // Suscripción al evento "attack" del attackObject.
         attackObject.addEventListener("attack",(event) => this.onAttack(event));
         
-        this.#sprite.setDepth(1);
+        this.#sprite.setDepth(2);
+
+        this.#beastHurt = false;
+
+        this.#hurtCount = 50;
     }
 
     setPentagon(pentagon)
@@ -113,11 +119,13 @@ export default class Beast
     {
         this.#attackObject.updateBuildup(dt);
         this._updateBuildupBar();
+        this.updateAnimations();
     }
 
     // Método para recibir desde el pentágono un ataque y procesarlo.
     recieveHit(attack)
     {
+        this.#beastHurt = true;
         this.#lifeObject.hit(attack);
         this._updateHealthBar();
     }
@@ -138,6 +146,8 @@ export default class Beast
     // Método que se envia como callback para escuchar la muerte del lifeObject
     onDeath(event)
     {
+        this.#attackObject.resetBuildup();
+
         let deathInfo = event.detail;
         if (deathInfo instanceof DeathInfo)
         {
@@ -190,4 +200,13 @@ export default class Beast
         this.#buildupBar.updateBar(this.#attackObject.getBuildup(), this.#attackObject.getAttackCooldown());
     }
     // TODO: Llevar toda la lógica de dibujado en Phaser...
+    updateAnimations()
+    {
+        //this.#sprite.hurtAnimation(this.#hurtCount);
+        console.log(this.#hurtCount);
+        if(this.#beastHurt){
+            this.#hurtCount--;
+            if (this.#hurtCount == 0) {this.#hurtCount = 50; this.#beastHurt = false;}
+        }
+    }
 }

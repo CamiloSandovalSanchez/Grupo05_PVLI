@@ -6,7 +6,7 @@ export default class HealthBar extends FillDisplay
 {
     constructor(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, currentHealth, maxHealth)
     {
-        super(scene, x, y, textureBackground, frameBackground, textureFillSprite, frameFillSprite, FillSprite.types.LEFT, currentHealth + " / " + maxHealth);
+        super(scene, x, y, 0.5, textureBackground, frameBackground, textureFillSprite, frameFillSprite, FillSprite.types.LEFT, currentHealth + " / " + maxHealth);
         this.updateBar(currentHealth, maxHealth);
     }
 

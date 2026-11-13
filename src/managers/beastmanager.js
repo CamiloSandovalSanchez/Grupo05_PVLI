@@ -79,7 +79,7 @@ export default class BeastManager
     }
     #searchWater(tag){
         switch(tag){
-            case (BeastTag.tags.AquaBlob): 
+            case (BeastManager.tags.AquaBlob): 
                 return this.#loadAquaBlob();
             default: 
                 console.error("no se ha encontrado a la bestia de agua");
@@ -125,12 +125,18 @@ export default class BeastManager
         return new Beast(
                     new HasHealth(100, 5, elementAir),
                     new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementAir), 5000),
-                    new SpriteContainer(this.#scene, 0, 0, 'puff', 0),
+                    new SpriteContainer(this.#scene, 0, 0, 1, 'puff', 0),
                     new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
-                    new BuildupBar(this.#scene, 0, -100, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+                    new BuildupBar(this.#scene, 0, 50, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
 
     #loadAquaBlob(){
-
+        let elementWater = new Element(Element.types.WATER);
+        return new Beast(
+                    new HasHealth(100, 5, elementWater),
+                    new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementWater), 5000),
+                    new SpriteContainer(this.#scene, 0, 0, 1, 'aquablob', 0),
+                    new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 50, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
 }

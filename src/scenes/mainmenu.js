@@ -10,7 +10,20 @@ import menuButton from '../render/menubutton.js';
 
     preload()
     {
-		this.load.image('puff', './assets/smokepuff.png');
+		this.load.image('puff', './assets/criaturas/smokepuff_jtr.png');
+		this.load.image('aquablob', './assets/criaturas/aquablob_jtr.png');
+		this.load.image('golem', './assets/criaturas/golem_jtr.png');
+		this.load.image('lavaslime', './assets/criaturas/lavaslime_jtr.png');
+		this.load.image('lightspirit', './assets/criaturas/lightningspirit_jtr.png');
+		this.load.image('cerbero', './assets/criaturas/cerbero_jtr.png');
+		this.load.image('hada', './assets/criaturas/hada_jtr.png');
+		this.load.image('sirena', './assets/criaturas/sirena_jtr.png');
+		this.load.image('torbellino', './assets/criaturas/torbellino_jtr.png');
+		this.load.image('atlas', './assets/criaturas/atlas_jtr.png');
+		this.load.image('barco', './assets/criaturas/barcopirata_jtr.png');
+		this.load.image('apolo', './assets/criaturas/apolo_dios_de_sol_jtr.png');
+
+
         this.load.image('logo', './assets/logo_janitortherotator.png');
         this.load.image('janitor', './assets/janitor.png');
         this.load.image('fondo', './assets/fondo_jantherot.png');
@@ -41,19 +54,22 @@ import menuButton from '../render/menubutton.js';
         //logoImage.setScale(0.75);
 
 
-        var startButton = new menuButton("START", this, 400, 320, 'start', 0.75, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        
-        startButton.setScene('combatScene')
+        this.startButton = new menuButton("START", this, 0.5, 0.6, 0.4, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.startButton.setScene('combatScene');
 
-        var creditButton = new menuButton("CREDITOS", this, 400, 480, 'start', 0.75, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        
-        creditButton.setScene('creditScene')
+        this.mapButton = new menuButton("MAP", this, 0.5, 0.75, 0.4, 0xcd00cd, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.mapButton.setScene('mapScene');
+
+        this.creditButton = new menuButton("CREDITOS", this, 0.5, 0.9, 0.4, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.creditButton.setScene('creditScene');
         
     }
 
     update(t, dt)
     {
-        
+        this.startButton.update(dt);
+        this.mapButton.update(dt);
+        this.creditButton.update(dt);
     }
 
 }
