@@ -20,6 +20,7 @@ let config = {
     
     pixelArt: false,
     backgroundColor: '#FFFFFF',
+    physics: { default: "arcade" },
     scene: [mainmenu, mapScene, combatScene, creditScene], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
 };
 
