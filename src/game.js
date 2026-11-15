@@ -3,6 +3,7 @@ import mainmenu from "./scenes/mainmenu.js";
 import mapScene from "./scenes/mapscene.js";
 import combatScene from "./scenes/combatscene.js";
 import creditScene from "./scenes/creditscene.js";
+import encounterScene from './scenes/encounterscene.js';
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
@@ -21,7 +22,7 @@ let config = {
     pixelArt: false,
     backgroundColor: '#FFFFFF',
     physics: { default: "arcade" },
-    scene: [mainmenu, mapScene, combatScene, creditScene], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
+    scene: [mainmenu, mapScene, combatScene, creditScene, encounterScene], // El juego contiene una escena de la clase Village, que extiende de Phaser.Scene
 };
 
 new Phaser.Game(config);
