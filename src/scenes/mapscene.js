@@ -47,15 +47,15 @@ create() {
         ['mej2',   1240, 1960, ['bat5', 'bat6']],
         ['2bat3',  2070, 1960, ['herr4']],
         ['bat5',    770, 1780, ['2bat4', 'bat7']],
-        ['bat6',   1650, 1835, ['2bat5', 'elite2']],
+        ['bat6',   1650, 1835, ['2bat5', '3bat2']],
         ['herr4',  2260, 1540, ['elite2']],
 
         // Tramo intermedio
-        ['2bat4',   445, 1470, ['mej4', 'elite1']],
+        ['2bat4',   445, 1470, ['mej4', '3bat1']],
         ['bat7',    990, 1520, ['mej3']],
-        ['2bat5',  1440, 1520, ['mej3', 'elite2']],
+        ['2bat5',  1440, 1520, ['mej3', '3bat2']],
         ['mej4',    255, 1140, ['herr5']],
-        ['mej3',   1245, 1265, ['elite1', 'bat8']],
+        ['mej3',   1245, 1265, ['3bat1', 'bat8']],
         ['elite2', 1985, 1160, ['2bat6', 'herr8']],
         ['elite1',  835, 1025, ['herr6']],
 
@@ -63,7 +63,7 @@ create() {
         ['herr5',   170,  775, ['herr6']],
         ['bat8',   1260,  805, ['mej5']],
         ['2bat6',  1740,  750, ['mej5', 'herr7']],
-        ['herr8',  2240,  800, ['elite3']],
+        ['herr8',  2240,  800, ['3bat3']],
         ['herr6',   655,  490, ['jefe']],
         ['mej5',   1245,  535, ['jefe']],
         ['elite3', 2445,  490, ['mej6']],
@@ -85,9 +85,9 @@ create() {
 
     if (!encuentrosDelMapa) {
         const rivalesPorTier = {
-            1: Array.from({ length: 8 }, (_, i) => 'Rival T1-' + (i + 1)),
-            2: Array.from({ length: 6 }, (_, i) => 'Rival T2-' + (i + 1)),
-            3: Array.from({ length: 3 }, (_, i) => 'Rival T3-' + (i + 1))
+            1: Array.from({ length: 12 }, (_, i) => 'Rival T1-' + (i + 1)),
+            2: Array.from({ length: 8 }, (_, i) => 'Rival T2-' + (i + 1)),
+            3: Array.from({ length: 5 }, (_, i) => 'Rival T3-' + (i + 1))
         };
 
     encuentrosDelMapa = {};
