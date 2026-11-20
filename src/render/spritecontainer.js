@@ -34,7 +34,7 @@ export default class SpriteContainer extends Phaser.GameObjects.Container
     hurtAnimation(counter)
     {
         if (counter > 0) this.#sprite.setTint(0xffff0000); // tinta el sprite de rojo
-        else this.#sprite.clearTint(); // tinta el sprite de rojo
+        else this.#sprite.clearTint(); // quita el tinte
     }
     
     // Actualiza el texto.

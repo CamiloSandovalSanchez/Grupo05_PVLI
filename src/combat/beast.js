@@ -206,7 +206,10 @@ export default class Beast
         console.log(this.#hurtCount);
         if(this.#beastHurt){
             this.#hurtCount--;
-            if (this.#hurtCount == 0) {this.#hurtCount = 50; this.#beastHurt = false;}
+            if (this.#hurtCount == 0) {
+                this.#hurtCount = 50; 
+                this.#beastHurt = false;
+            }
         }
     }
 }
