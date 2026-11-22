@@ -6,8 +6,9 @@ import AttackInfo from '../utility/attackinfo.js';
 import SpriteContainer from '../render/spritecontainer.js';
 import HealthBar from '../render/filldisplay/healthbar.js';
 import BuildupBar from '../render/filldisplay/buildupbar.js';
+import TeamLeader from '../combat/teamleader.js';
 
-export default class BeastManager
+export default class EntityManager
 {
     // Variables de la clase:
     static instance;
@@ -15,20 +16,41 @@ export default class BeastManager
 
     // Se guardan los tags de las bestias aquí
     static tags = Object.freeze({
+
+        // AIRE
         SmokePuff: 0,
-        AquaBlob: 1
+        // FUEGO
+
+        // AGUA
+        AquaBlob: 1,
+        // TIERRA
+
+        // ELECTRICO
+
+        // VIDA
+
+        // MUERTE
+
+        // LIDERES
+        Janitor: 2
     });
     
     // Las exceciones ya son controladas a la hora de tratar de crear una bestia asi que no son necesarias en este manager
     constructor(Scene)
     {
-        if (BeastManager.instance){ return BeastManager.instance; }
+        if (EntityManager.instance){ return EntityManager.instance; }
         
         // Todo el código del constructor aquí
         if (Scene instanceof Phaser.Scene) this.#scene = Scene;
         else console.error("Constructora de BeastManager llamada con parámetro scene inválido. Funcionará mal");
 
-        BeastManager.instance = this;
+        EntityManager.instance = this;
+    }
+
+    spawnLeader(tag){
+        switch(tag){
+            case (EntityManager.tags.Janitor): return this.#loadJanitor();
+        }
     }
 
     // Métodos de identificación de bestia
@@ -63,7 +85,7 @@ export default class BeastManager
     {
         switch(tag)
         {
-            case (BeastManager.tags.SmokePuff): 
+            case (EntityManager.tags.SmokePuff): 
                 return this.#loadSmokePuff();
             default: 
                 console.error("no se ha encontrado a la bestia de viento");
@@ -79,7 +101,7 @@ export default class BeastManager
     }
     #searchWater(tag){
         switch(tag){
-            case (BeastManager.tags.AquaBlob): 
+            case (EntityManager.tags.AquaBlob): 
                 return this.#loadAquaBlob();
             default: 
                 console.error("no se ha encontrado a la bestia de agua");
@@ -114,6 +136,21 @@ export default class BeastManager
             default: 
                 console.error("no se ha encontrado a la bestia de muerte");
         }
+    }
+
+
+    /* ------------------------------------------- */
+    /* ----- Métodos de creación de líderes ------ */
+    /* ------------------------------------------- */
+
+    #loadJanitor(){
+        let elementLeader = new Element(Element.types.LEADER);
+        return new TeamLeader(
+            true,
+            new HasHealth(50, 0, elementLeader),
+            new DeafultAttack(new AttackInfo(0, AttackInfo.attackTypes.NORMAL, elementLeader), 5000),
+            new SpriteContainer(this.#scene, 0, 0, 1, 'janitor', 0)
+        );
     }
 
     /* ------------------------------------------- */

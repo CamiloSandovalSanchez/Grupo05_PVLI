@@ -215,6 +215,10 @@ export default class Pentagon
         this.emptyPentagon();
     }
 
+    teamLeaderDied(){
+        
+    }
+
     // Devuelve si este se trata del pentágono del jugador.
     isPlayerPentagon()
     {
@@ -231,7 +235,7 @@ export default class Pentagon
             i++;
         }
         if (empty) {
-            GameManager.instance.emptiedPentagon(this.isPlayerPentagon());
+            GameManager.instance.endBattle(this.isPlayerPentagon());
         };
     }
 }

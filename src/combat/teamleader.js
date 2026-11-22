@@ -2,6 +2,7 @@ import HasHealth from "../health/hashealth.js";
 import AttackHandler from "../attack/attackhandler.js";
 import Pentagon from "./pentagon.js"
 import AttackInfo from "../attack/attackhandler.js";
+import SpriteContainer from "../render/spritecontainer.js";
 
 // Clase que servirá como intermediaria para crear un lider de equipo.
 // Contiene referencia a las clases básicas HasHealth y AttackHandler, llamando a sus métodos según corresponda.
@@ -13,8 +14,8 @@ export default class TeamLeader
     #pentagon = null; // Referencia al pentágono al que pertenece el lider.
     #rivalPentagon = null; // Referencia al pentágono rival.
     #isPlayer; // Booleano que determina si somos el lider del jugador o el del enemigo.
-
-    constructor(isPlayer, lifeObject, attackObject)
+    #sprite; // Variable de sprite
+    constructor(isPlayer, lifeObject, attackObject, sprite)
     {
         // Comprobación de tipos e inicialización de las variables
         if (typeof isPlayer === "boolean") this.#isPlayer = isPlayer;
@@ -26,10 +27,15 @@ export default class TeamLeader
         if (attackObject instanceof AttackHandler) this.#attackObject = attackObject;
         else throw new TypeError("Se ha intentado crear un TeamLeader con el parámetro \"attackObject\" sin ser una instancia de AttackHandler");
 
+        if (sprite instanceof SpriteContainer) this.#sprite = sprite;
+        else throw new TypeError("Se ha intentado crear una Beast con el parámetro \"sprite\" sin ser instancia de Sprite");
+
         // Suscripción al evento "death" del lifeObject.
         lifeObject.addEventListener("death", (event) => {this.onDeath(event)});
         // Suscripción al evento "attack" del attackObject.
         attackObject.addEventListener("attack",(event) => this.onAttack(event));
+
+        this.#sprite.setDepth(2);
     }
 
     setPentagon(pentagon)
@@ -53,6 +59,7 @@ export default class TeamLeader
     // Método para recibir desde el pentágono un ataque y procesarlo.
     recieveHit(attack)
     {
+        console.log("Lider ha recibido golpe");
         this.#lifeObject.hit(attack);
     }
 
@@ -68,10 +75,10 @@ export default class TeamLeader
     }
 
     // Método que se envia como callback para escuchar la muerte del lifeObject
-        onDeath(event)
-        {
-            // TODO: Procesar la muerte del lider. Es posible que se quiera recibir el DeathInfo del evento y mandarlo de forma global. (?
-        }
+    onDeath(event)
+    {
+        // TODO: Procesar la muerte del lider. Es posible que se quiera recibir el DeathInfo del evento y mandarlo de forma global. (?
+    }
     
         // Método que se envia como callback para escuchar el ataque del attackObject.
         onAttack(event)

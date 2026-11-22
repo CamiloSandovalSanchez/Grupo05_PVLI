@@ -202,8 +202,8 @@ export default class Beast
     // TODO: Llevar toda la lógica de dibujado en Phaser...
     updateAnimations()
     {
-        //this.#sprite.hurtAnimation(this.#hurtCount);
-        console.log(this.#hurtCount);
+        // this.#sprite.hurtAnimation(this.#hurtCount);
+        // console.log(this.#hurtCount);
         if(this.#beastHurt){
             this.#hurtCount--;
             if (this.#hurtCount == 0) {this.#hurtCount = 50; this.#beastHurt = false;}

@@ -7,7 +7,7 @@ import HasHealth from '../health/hashealth.js';
 import AttackHandler from '../attack/attackhandler.js';
 import AttackInfo from '../utility/attackinfo.js';
 import Element from '../utility/element.js';
-import BeastManager from '../managers/beastmanager.js';
+import EntityManager from '../managers/entitymanager.js';
 import GameManager from '../managers/gamemanager.js';
 import menuButton from '../render/menubutton.js';
 
@@ -30,27 +30,25 @@ import menuButton from '../render/menubutton.js';
         var bgImage = this.add.image(0,0,'fondoPasillo').setOrigin(0,0);
         bgImage.setScale(0.338);
         
-        this.BeastManager = new BeastManager(this);
+        this.EntityManager = new EntityManager(this);
         this.GameManager = new GameManager(this);
         let elementAir = new Element(Element.types.AIR);
         let elementWater = new Element(Element.types.WATER);
         //let attackInfo = new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir);
         
         
-        this.puff1 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff1 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff2 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff2 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
         
-        this.puff3 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff3 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff4 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff4 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff5 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff5 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
         
-        this.leader1 = new TeamLeader(true,
-            new HasHealth(500, 5, elementAir),
-            new AttackHandler(new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir), 5000)
-        )
+        this.leader1 = this.EntityManager.spawnLeader(EntityManager.tags.Janitor);
+        
 
         this.pentagon1 = new Pentagon(this.puff1, this.puff2, this.puff3, this.puff4, this.puff5, this.leader1,
             new SpriteContainer(this, 0.25, 0.5, 1, 'pent', 0), 
@@ -59,15 +57,15 @@ import menuButton from '../render/menubutton.js';
         );
             
 
-        this.puff6 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff6 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
         
-        this.puff7 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff7 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff8 = this.BeastManager.spawnBeast(elementWater, BeastManager.tags.AquaBlob);
+        this.puff8 = this.EntityManager.spawnBeast(elementWater, EntityManager.tags.AquaBlob);
 
-        this.puff9 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff9 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff10 = this.BeastManager.spawnBeast(elementAir, BeastManager.tags.SmokePuff);
+        this.puff10 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
         
         this.leader2 = new TeamLeader(false,
             new HasHealth(500, 5, elementAir),
