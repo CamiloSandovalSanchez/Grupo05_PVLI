@@ -171,7 +171,6 @@ for (const casilla of casillas) {
 
             this.registry.set('progresoMapa', this.casillaActual.id);
 
-<<<<<<< HEAD
             const primeraFila = [izquierda, derecha, sigIzquierda, sigDerecha];
 
             for (const casilla of primeraFila) {
@@ -191,26 +190,6 @@ for (const casilla of casillas) {
             this.backButton = new menuButton("Back to menu", this, 0.125, 0.05, 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
                     
             this.backButton.setScene('mainmenu');
-        }
-
-        update(t, dt) {
-            if (this.destino === null) return;
-
-            const dx = this.destino.x - this.janitor.x;
-            const dy = this.destino.y - this.janitor.y;
-
-            if (Math.hypot(dx, dy) <= 3) {
-                this.janitor.body.reset(this.destino.x, this.destino.y);
-                this.casillaActual = this.destino;
-                this.destino = null;
-=======
-            const encuentro = this.casillaActual.encuentro;
-            if (encuentro) {
-                this.scene.start(encuentro.escena, { encuentro });
->>>>>>> 05bd639 (Mapa prácticamente implementado)
-            }
-
-            this.backButton.update(dt);
         }
     }
     }

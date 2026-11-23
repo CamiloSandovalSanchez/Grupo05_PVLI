@@ -86,6 +86,9 @@ import menuButton from '../render/menubutton.js';
         this.backButton = new menuButton("Back to menu", this, 0.125, 0.05, 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
         
         this.backButton.setScene('mainmenu');
+        
+        //this.pentagon1.setBeastAnimations(this);
+        //this.pentagon2.setBeastAnimations(this);
     }
 
     update(t, dt)

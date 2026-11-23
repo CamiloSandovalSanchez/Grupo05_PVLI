@@ -22,8 +22,6 @@ export default class Beast
     #sprite; // Sprite de la bestia
     #healthBar; // HealthBar de la bestia
     #buildupBar; // Barra de buildup de la bestia
-    #beastHurt; // Barra de buildup de la bestia
-    #hurtCount; // Barra de buildup de la bestia
 
     constructor(lifeObject, attackObject, sprite, healthBar, buildupBar)
     {
@@ -52,9 +50,8 @@ export default class Beast
         
         this.#sprite.setDepth(2);
 
-        this.#beastHurt = false;
+        this.beastAnimCooldowns = [0, 0, 0]; //(idle, attack, hurt)
 
-        this.#hurtCount = 50;
     }
 
     setPentagon(pentagon)
@@ -118,6 +115,7 @@ export default class Beast
     update(dt)
     {
         this.#attackObject.updateBuildup(dt);
+        this.#sprite.update();
         this._updateBuildupBar();
         this.updateAnimations();
     }
@@ -125,7 +123,8 @@ export default class Beast
     // Método para recibir desde el pentágono un ataque y procesarlo.
     recieveHit(attack)
     {
-        this.#beastHurt = true;
+        this.beastHurt = true;
+        this.beastAnimCooldowns[2] = 1000;
         this.#lifeObject.hit(attack);
         this._updateHealthBar();
     }
@@ -184,7 +183,10 @@ export default class Beast
         let attackInfo = event.detail;
         if (attackInfo instanceof AttackInfo)
         {
-            if (this.#rivalPentagon !== null) this.#rivalPentagon.attackPosition(attackInfo);
+            if (this.#rivalPentagon !== null) {
+                this.#rivalPentagon.attackPosition(attackInfo); 
+                this.activateanim(1, 1000);
+            }
             else console.error("Una Beast ha intentado atacar antes de recibir el setRivalPentagon(). No podrá atacar.");
         }
         else console.error("Una Beast no ha recibido un objeto AttackInfo en la escucha onAttack. No podrá acabar de atacar");
@@ -202,14 +204,30 @@ export default class Beast
     // TODO: Llevar toda la lógica de dibujado en Phaser...
     updateAnimations()
     {
-        //this.#sprite.hurtAnimation(this.#hurtCount);
-        console.log(this.#hurtCount);
-        if(this.#beastHurt){
-            this.#hurtCount--;
-            if (this.#hurtCount == 0) {
-                this.#hurtCount = 50; 
-                this.#beastHurt = false;
-            }
+
+        for(let i = 0; i<this.beastAnimCooldowns.length; ++i){ 
+            if (this.beastAnimCooldowns[i] > 0) this.beastAnimCooldowns[i]--;
         }
+        
+        if(this.beastAnimCooldowns[2] > 0){
+            this.#sprite.hurtAnimation(this.beastAnimCooldowns[2]);
+        }
+        else if(this.beastAnimCooldowns[1] > 0){
+            this.#sprite.attackAnimation(this.beastAnimCooldowns[1]);
+        }
+        else if(this.beastAnimCooldowns[0] > 0){
+            //this.activateanim(0, 1000);
+            //console.log(this.beastAnimCooldowns);
+            this.#sprite.idleAnimation(this.beastAnimCooldowns[0]);
+            
+        }
+        else this.activateanim(0, 1000);
+    }
+
+    activateanim(animIndex, duration){
+        for(let i = 0; i<this.beastAnimCooldowns.length; ++i){ 
+            this.beastAnimCooldowns[i] = 0;
+        }
+        this.beastAnimCooldowns[animIndex] += duration;
     }
 }
