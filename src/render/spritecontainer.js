@@ -15,7 +15,10 @@ export default class SpriteContainer extends Phaser.GameObjects.Container
         this.y = y*sceneH;
 
         // Crear el sprite
-        this.#sprite = scene.add.sprite(0, 0, texture, frame);
+        this.#sprite = scene.add.sprite(0, 0
+           
+           
+            , texture, frame);
         this.#sprite.setDisplaySize(200*scale,200*scale);
 
         // Añadirlo a nuestro contenedor
