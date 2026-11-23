@@ -67,10 +67,7 @@ import menuButton from '../render/menubutton.js';
 
         this.puff10 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
         
-        this.leader2 = new TeamLeader(false,
-            new HasHealth(500, 5, elementAir),
-            new AttackHandler(new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir), 5000)
-        )
+        this.leader2 = this.EntityManager.spawnLeader(EntityManager.tags.Enemy);
 
         this.pentagon2 = new Pentagon(this.puff6, this.puff7, this.puff8, this.puff9, this.puff10, this.leader2,
             new SpriteContainer(this, 0.75, 0.5, 1, 'pent', 0),

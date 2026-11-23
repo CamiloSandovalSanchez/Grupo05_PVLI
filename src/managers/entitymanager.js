@@ -32,7 +32,8 @@ export default class EntityManager
         // MUERTE
 
         // LIDERES
-        Janitor: 2
+        Janitor: 2,
+        Enemy: 3
     });
     
     // Las exceciones ya son controladas a la hora de tratar de crear una bestia asi que no son necesarias en este manager
@@ -50,6 +51,7 @@ export default class EntityManager
     spawnLeader(tag){
         switch(tag){
             case (EntityManager.tags.Janitor): return this.#loadJanitor();
+            case (EntityManager.tags.Enemy): return this.#loadEenemy();
         }
     }
 
@@ -144,12 +146,24 @@ export default class EntityManager
     /* ------------------------------------------- */
 
     #loadJanitor(){
-        let elementLeader = new Element(Element.types.LEADER);
+        let elementLeader = new Element(Element.types.NEUTRAL);
         return new TeamLeader(
             true,
             new HasHealth(50, 0, elementLeader),
             new DeafultAttack(new AttackInfo(0, AttackInfo.attackTypes.NORMAL, elementLeader), 5000),
-            new SpriteContainer(this.#scene, 0, 0, 1, 'janitor', 0)
+            new SpriteContainer(this.#scene, 0, 0, 0.75, 'janitor', 0),
+            new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100)
+        );
+    }
+
+    #loadEenemy(){
+        let elementLeader = new Element(Element.types.NEUTRAL);
+        return new TeamLeader(
+            false,
+            new HasHealth(50, 0, elementLeader),
+            new DeafultAttack(new AttackInfo(0, AttackInfo.attackTypes.NORMAL, elementLeader), 5000),
+            new SpriteContainer(this.#scene, 0, 0, 0.75, 'janitor', 0),
+            new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100)
         );
     }
 
@@ -171,7 +185,7 @@ export default class EntityManager
         let elementWater = new Element(Element.types.WATER);
         return new Beast(
                     new HasHealth(100, 5, elementWater),
-                    new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementWater), 5000),
+                    new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementWater), 1000),
                     new SpriteContainer(this.#scene, 0, 0, 1, 'aquablob', 0),
                     new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
                     new BuildupBar(this.#scene, 0, 50, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));

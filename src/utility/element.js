@@ -14,7 +14,7 @@ export default class Element
         DEATH: 6,
         // los primeros 5 (del 0 al 4) se colocan de forma que, de forma cíclica, son fuertes contra el siguiente y débiles contra el anterior
 
-        LEADER: 7 // Elemento "nulo" para los líderes que no deban tener interacciones elementales
+        NEUTRAL: 7 // Elemento "nulo" para los líderes que no deban tener interacciones elementales
     });
 
     // Revisa si un parámetro cualquiera sirve para crear un elemento (por ser referencia a Element o por ser un Element.types)

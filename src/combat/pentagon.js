@@ -80,15 +80,13 @@ export default class Pentagon
     constructor(beast1, beast2, beast3, beast4, beast5, leader, sprite, clockwiseRotationButton, counterClockwiseRotationButton, rotationCooldown = Pentagon.DEFAULT_ROTATIONCOOLDOWN)
     {
         // Asegurarse del tipo de las variables y asignación.
-        this.setLeader(leader)// obligatoriamente antes que las beast y sprite
-
         if (sprite instanceof SpriteContainer) 
         {
             this.#sprite = sprite; // obligatoriamente antes que las beast
-            this.#sprite.setDepth(0);
-            if (!this.isPlayerPentagon()) this.#sprite.flipX(true);
         }
         else throw new TypeError("Constructora de Pentagon llamada con parámetro sprite sin ser instancia de Sprite");
+
+        this.setLeader(leader)// obligatoriamente antes que las beast y sprite
 
         //  Introducimos a las bestias al pentágono adecuadamente.
         this.setBeast(beast1, 0);
@@ -109,6 +107,9 @@ export default class Pentagon
         else throw new TypeError("Constructora de Pentagon llamada con parámetro counterClockwiseRotationButton sin ser instancia de RotateButton");
         this.#counterClockwiseRotationButton.onRotation(this.tryToRotate.bind(this));
         this.#sprite.add(this.#counterClockwiseRotationButton);
+
+        this.#sprite.setDepth(0);
+        if (!this.isPlayerPentagon()) this.#sprite.flipX(true);
 
     }
 
@@ -187,6 +188,7 @@ export default class Pentagon
              this.#beasts[attack.getAttackTarget() - 1].isDead() || // o si el objetivo ha muerto
               attack.getAttackType() === AttackInfo.attackTypes.DIRECT) // o si el tipo de ataque es directo
                 this.#leader.recieveHit(attack); // atacar al lider
+                
             else this.#beasts[attack.getAttackTarget() - 1].recieveHit(attack); // atacar a la bestia
         }
         else console.error("Se esta intentando atacar en un Pentagon con un objeto que no es un AttackInfo. Se ignorará el ataque");
@@ -216,7 +218,8 @@ export default class Pentagon
     }
 
     teamLeaderDied(){
-        
+        GameManager.instance.endBattle(this.isPlayerPentagon()); // Si el líder muere acaba la batalla
+        this.#leader = null; // Desactivamos el lider
     }
 
     // Devuelve si este se trata del pentágono del jugador.
