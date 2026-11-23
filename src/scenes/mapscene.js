@@ -48,7 +48,7 @@ create() {
         ['2bat3',  2070, 1960, ['herr4']],
         ['bat5',    770, 1780, ['2bat4', 'bat7']],
         ['bat6',   1650, 1835, ['2bat5', '3bat2']],
-        ['herr4',  2260, 1540, ['elite2']],
+        ['herr4',  2260, 1540, ['3bat2']],
 
         // Tramo intermedio
         ['2bat4',   445, 1470, ['mej4', '3bat1']],
@@ -56,8 +56,8 @@ create() {
         ['2bat5',  1440, 1520, ['mej3', '3bat2']],
         ['mej4',    255, 1140, ['herr5']],
         ['mej3',   1245, 1265, ['3bat1', 'bat8']],
-        ['elite2', 1985, 1160, ['2bat6', 'herr8']],
-        ['elite1',  835, 1025, ['herr6']],
+        ['3bat2', 1985, 1160, ['2bat6', 'herr8']],
+        ['3bat1',  835, 1025, ['herr6']],
 
         // Últimas conexiones y jefe
         ['herr5',   170,  775, ['herr6']],
@@ -66,7 +66,7 @@ create() {
         ['herr8',  2240,  800, ['3bat3']],
         ['herr6',   655,  490, ['jefe']],
         ['mej5',   1245,  535, ['jefe']],
-        ['elite3', 2445,  490, ['mej6']],
+        ['3bat3', 2445,  490, ['mej6']],
         ['mej6',   2105,  400, ['herr7']],
         ['herr7',  1780,  305, ['jefe']],
         ['jefe',   1235,  175, []]
@@ -190,6 +190,10 @@ for (const casilla of casillas) {
             this.backButton = new menuButton("Back to menu", this, 0.125, 0.05, 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
                     
             this.backButton.setScene('mainmenu');
+            const encuentro = this.casillaActual.encuentro;
+            if (encuentro) {
+                this.scene.start(encuentro.escena, { encuentro });
+            }
         }
     }
     }
