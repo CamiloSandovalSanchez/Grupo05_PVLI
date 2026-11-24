@@ -204,7 +204,6 @@ export default class Beast
     // TODO: Llevar toda la lógica de dibujado en Phaser...
     updateAnimations()
     {
-
         for(let i = 0; i<this.beastAnimCooldowns.length; ++i){ 
             if (this.beastAnimCooldowns[i] > 0) this.beastAnimCooldowns[i]--;
         }
