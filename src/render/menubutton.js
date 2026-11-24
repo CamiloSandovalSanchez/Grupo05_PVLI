@@ -55,6 +55,8 @@ export default class MenuButton extends Phaser.GameObjects.Container
         this.#roundRect.on('pointerout', () =>{
             this.mouseOverBool = false;
         });
+
+
     }
 
     // Establecer el porcentaje de sprite que se muestra
