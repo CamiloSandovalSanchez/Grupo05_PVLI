@@ -44,6 +44,18 @@ import menuButton from '../render/menubutton.js';
 
     create()
     {
+        const datosPartida = [
+            'aura',
+            'progresoMapa',
+            'encuentrosMapa1',
+            'recompensasCombateMapa1',
+            'bestiasRecompensadas'
+        ];
+
+        for (const clave of datosPartida) {
+            this.registry.remove(clave);
+        }
+
         var bgImage = this.add.image(0,0,'fondo').setOrigin(0,0);
         bgImage.setScale(0.288);
         this.add.rectangle( 0, 0, 800, 600, 0x320045, 0.5).setOrigin(0,0);
