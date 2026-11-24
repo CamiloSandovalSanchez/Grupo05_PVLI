@@ -12,6 +12,7 @@ export default class HealthBar extends FillDisplay
 
     updateBar(currentHealth, maxHealth)
     {
+        if (currentHealth < 0) currentHealth = 0;
         this.updateFillSprite(currentHealth/maxHealth);
         this.updateFitText(currentHealth + " / " + maxHealth);
     }

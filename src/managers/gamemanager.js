@@ -20,14 +20,13 @@ export default class GameManager{
         GameManager.instance = this;
     }
 
-    emptiedPentagon(player){
+    endBattle(player){
         this.#battleOn = false;
         if (!player) this.#victory();
         else this.#defeat();
     }
 
     update(dt){
-
         
     }
 

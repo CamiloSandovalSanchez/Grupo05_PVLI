@@ -47,8 +47,8 @@ import menuButton from '../render/menubutton.js';
         bgImage.setScale(0.288);
         this.add.rectangle( 0, 0, 800, 600, 0x320045, 0.5).setOrigin(0,0);
 
-        var logoImage= this.add.image(400,125,'logo');
-        logoImage.setScale(0.5);
+        this.logoImage= this.add.sprite(400,125,'logo');
+        this.logoImage.setScale(0.5);
 
         //const startButton = this.add.image(200,250,'start').setOrigin(0,0);
         //logoImage.setScale(0.75);
@@ -63,6 +63,8 @@ import menuButton from '../render/menubutton.js';
         this.creditButton = new menuButton("CREDITOS", this, 0.5, 0.9, 0.4, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
         this.creditButton.setScene('creditScene');
         
+
+        this.menuAnimations();
     }
 
     update(t, dt)
@@ -70,6 +72,54 @@ import menuButton from '../render/menubutton.js';
         this.startButton.update(dt);
         this.mapButton.update(dt);
         this.creditButton.update(dt);
+    }
+
+    menuAnimations(){
+		this.tweens.add({
+	    	targets: this.logoImage,
+	    	tint: 0xffffff,
+	    	y: '+=15',
+	    	scale: '*=1.05',
+	    	rotation: '+=0.25',//radianes
+	    	duration: 2000,
+	    	ease: 'linear',
+	    	yoyo: true, 
+            repeat: -1
+	    });
+		this.tweens.add({
+	    	targets: this.startButton,
+	    	tint: 0xffffff,
+	    	y: '+=5',
+	    	//scale: '*=1.05',
+	    	//rotation: '-=0.15',//radianes
+	    	duration: 2000,
+	    	ease: 'linear',
+	    	yoyo: true, 
+            repeat: -1
+	    });
+		this.tweens.add({
+	    	targets: this.mapButton,
+	    	tint: 0xffffff,
+	    	y: '+=5',
+	    	//scale: '*=1.05',
+	    	//rotation: '+=0.15',//radianes
+	    	duration: 1800,
+	    	ease: 'linear',
+	    	yoyo: true, 
+            repeat: -1
+	    });
+		this.tweens.add({
+	    	targets: this.creditButton,
+	    	tint: 0xffffff,
+	    	y: '+=5',
+	    	//scale: '*=1.05',
+	    	//rotation: '-=0.15',//radianes
+	    	duration: 2000,
+	    	ease: 'linear',
+	    	yoyo: true, 
+            repeat: -1
+	    });
+
     }
 
 }
