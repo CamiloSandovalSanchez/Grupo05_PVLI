@@ -34,30 +34,35 @@ import menuButton from '../render/menubutton.js';
         this.GameManager = new GameManager(this);
         let elementAir = new Element(Element.types.AIR);
         let elementWater = new Element(Element.types.WATER);
+        let elementFire = new Element(Element.types.FIRE);
+        let elementEarth = new Element(Element.types.EARTH);
+        let elementElectric = new Element(Element.types.ELECTRIC);
+        let elementLife = new Element(Element.types.LIFE);
+        let elementDeath = new Element(Element.types.DEATH);
         //let attackInfo = new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir);
         
         
         this.puff1 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff2 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff2 = this.EntityManager.spawnBeast(elementFire, EntityManager.tags.Apolo);
         
-        this.puff3 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff3 = this.EntityManager.spawnBeast(elementEarth, EntityManager.tags.Atlas);
 
-        this.puff4 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff4 = this.EntityManager.spawnBeast(elementWater, EntityManager.tags.Sirena);
 
-        this.puff5 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff5 = this.EntityManager.spawnBeast(elementElectric, EntityManager.tags.LightningSpirit);
         
         this.leader1 = this.EntityManager.spawnLeader(EntityManager.tags.Janitor);
         
 
         this.pentagon1 = new Pentagon(this.puff1, this.puff2, this.puff3, this.puff4, this.puff5, this.leader1,
-            new SpriteContainer(this, 0.25, 0.5, 1, 'pent', 0), 
-            new RotateButton(this, -0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
-            new RotateButton(this, 0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40})
+            new SpriteContainer(this, 0.25, 0.65, 1, 'pent', 0), 
+            new RotateButton(this, -0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
+            new RotateButton(this, 0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40})
         );
             
 
-        this.puff6 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff6 = this.EntityManager.spawnBeast(elementEarth, EntityManager.tags.Golem);
         
         this.puff7 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
@@ -70,9 +75,9 @@ import menuButton from '../render/menubutton.js';
         this.leader2 = this.EntityManager.spawnLeader(EntityManager.tags.Enemy);
 
         this.pentagon2 = new Pentagon(this.puff6, this.puff7, this.puff8, this.puff9, this.puff10, this.leader2,
-            new SpriteContainer(this, 0.75, 0.5, 1, 'pent', 0),
-            new RotateButton(this, -0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
-            new RotateButton(this, 0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40}),
+            new SpriteContainer(this, 0.75, 0.65, 1, 'pent', 0),
+            new RotateButton(this, -0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
+            new RotateButton(this, 0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40}),
         );
 
         this.pentagon1.setRivalPentagon(this.pentagon2);

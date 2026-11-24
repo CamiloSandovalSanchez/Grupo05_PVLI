@@ -19,21 +19,39 @@ export default class EntityManager
 
         // AIRE
         SmokePuff: 0,
+        Hada: 1,
+        Torbellino: 2,
+        
+        
         // FUEGO
+        LavaSlime: 3,
+        Apolo: 4,
+        Cerbero: 5, 
+
 
         // AGUA
-        AquaBlob: 1,
+        AquaBlob: 6,
+        Sirena: 7,
+        BarcoPirata: 8,
+        
+        
         // TIERRA
-
+        Golem: 9,
+        Atlas: 10,
+        Hecatonquiros: 11,
+        
+        
         // ELECTRICO
-
+        LightningSpirit: 12,
+        
+        
         // VIDA
 
         // MUERTE
 
         // LIDERES
-        Janitor: 2,
-        Enemy: 3
+        Janitor: 3,
+        Enemy: 4
     });
     
     // Las exceciones ya son controladas a la hora de tratar de crear una bestia asi que no son necesarias en este manager
@@ -98,6 +116,10 @@ export default class EntityManager
     {
         switch(tag)
         {
+            case (EntityManager.tags.LavaSlime): 
+                return this.#loadLavaSlime();
+            case (EntityManager.tags.Apolo): 
+                return this.#loadApolo();
             default: console.error("no se ha encontrado a la bestia de fuego");
         }
     }
@@ -105,6 +127,10 @@ export default class EntityManager
         switch(tag){
             case (EntityManager.tags.AquaBlob): 
                 return this.#loadAquaBlob();
+            case (EntityManager.tags.Sirena): 
+                return this.#loadSirena();
+            case (EntityManager.tags.BarcoPirata): 
+                return this.#loadBarcoPirata();
             default: 
                 console.error("no se ha encontrado a la bestia de agua");
         }
@@ -112,6 +138,12 @@ export default class EntityManager
     #searchEarth(tag){
         switch(tag)
         {
+            case (EntityManager.tags.Golem): 
+                return this.#loadGolem();
+            case (EntityManager.tags.Atlas): 
+                return this.#loadAtlas();
+            case (EntityManager.tags.Hecatonquiros): 
+                return this.#loadHecatonquiros();
             default: 
                 console.error("no se ha encontrado a la bestia de tierra");
         }
@@ -119,6 +151,8 @@ export default class EntityManager
     #searchElectric(tag){
         switch(tag)
         {
+            case (EntityManager.tags.LightningSpirit): 
+                return this.#loadLightningSpirit();
             default: 
                 console.error("no se ha encontrado a la bestia de eléctrico");
         }
@@ -176,9 +210,9 @@ export default class EntityManager
         return new Beast(
                     new HasHealth(100, 5, elementAir),
                     new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementAir), 5000),
-                    new SpriteContainer(this.#scene, 0, 0, 1, 'puff', 0),
-                    new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
-                    new BuildupBar(this.#scene, 0, 50, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+                    new SpriteContainer(this.#scene, 0, 0, 0.65, 'puff', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
 
     #loadAquaBlob(){
@@ -186,8 +220,89 @@ export default class EntityManager
         return new Beast(
                     new HasHealth(100, 5, elementWater),
                     new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementWater), 1000),
-                    new SpriteContainer(this.#scene, 0, 0, 1, 'aquablob', 0),
-                    new HealthBar(this.#scene, 0, -50, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
-                    new BuildupBar(this.#scene, 0, 50, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+                    new SpriteContainer(this.#scene, 0, 0, 0.65, 'aquablob', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadGolem(){
+        let elementEarth = new Element(Element.types.EARTH);
+        return new Beast(
+                    new HasHealth(70, 5, elementEarth),
+                    new DeafultAttack(new AttackInfo(10, AttackInfo.attackTypes.NORMAL, elementEarth), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.65, 'golem', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadLightningSpirit(){
+        let elementElectric = new Element(Element.types.ELECTRIC);
+        return new Beast(
+                    new HasHealth(100, 5, elementElectric),
+                    new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementElectric), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.65, 'lightspirit', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadLavaSlime(){
+        let elementFire = new Element(Element.types.FIRE);
+        return new Beast(
+                    new HasHealth(50, 0, elementFire),//(HP, def)
+                    new DeafultAttack(new AttackInfo(20, AttackInfo.attackTypes.NORMAL, elementFire), 1000),//(att)
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'lavaslime', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadHada(){
+        let elementAir = new Element(Element.types.AIR);
+        return new Beast(
+                    new HasHealth(50, 10, elementAir),
+                    new DeafultAttack(new AttackInfo(5, AttackInfo.attackTypes.NORMAL, elementAir), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'hada', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadAtlas(){
+        let elementEarth = new Element(Element.types.EARTH);
+        return new Beast(
+                    new HasHealth(230, 0, elementEarth),
+                    new DeafultAttack(new AttackInfo(0, AttackInfo.attackTypes.NORMAL, elementEarth), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'atlas', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadHecatonquiros(){
+        let elementEarth = new Element(Element.types.EARTH);
+        return new Beast(
+                    new HasHealth(100, 0, elementEarth),
+                    new DeafultAttack(new AttackInfo(0, AttackInfo.attackTypes.NORMAL, elementEarth), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'hecaton', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadSirena(){
+        let elementWater = new Element(Element.types.WATER);
+        return new Beast(
+                    new HasHealth(45, 5, elementWater),
+                    new DeafultAttack(new AttackInfo(10, AttackInfo.attackTypes.NORMAL, elementWater), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'sirena', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadApolo(){
+        let elementFire = new Element(Element.types.FIRE);
+        return new Beast(
+                    new HasHealth(45, 5, elementFire),
+                    new DeafultAttack(new AttackInfo(10, AttackInfo.attackTypes.NORMAL, elementFire), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'apolo', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
+    #loadBarcoPirata(){
+        let elementWater = new Element(Element.types.WATER);
+        return new Beast(
+                    new HasHealth(45, 5, elementWater),
+                    new DeafultAttack(new AttackInfo(10, AttackInfo.attackTypes.NORMAL, elementWater), 1000),
+                    new SpriteContainer(this.#scene, 0, 0, 0.5, 'barco', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
 }

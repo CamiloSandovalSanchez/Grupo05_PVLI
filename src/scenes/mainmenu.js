@@ -22,6 +22,7 @@ import menuButton from '../render/menubutton.js';
 		this.load.image('atlas', './assets/criaturas/atlas_jtr.png');
 		this.load.image('barco', './assets/criaturas/barcopirata_jtr.png');
 		this.load.image('apolo', './assets/criaturas/apolo_dios_de_sol_jtr.png');
+		this.load.image('hecaton', './assets/criaturas/hecatonquiros_jtr.png');
 
 
         this.load.image('logo', './assets/logo_janitortherotator.png');
