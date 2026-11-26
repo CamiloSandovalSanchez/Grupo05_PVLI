@@ -44,7 +44,7 @@ import menuButton from '../render/menubutton.js';
         
         this.puff1 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff2 = this.EntityManager.spawnBeast(elementFire, EntityManager.tags.Apolo);
+        this.puff2 = this.EntityManager.spawnBeast(elementFire, EntityManager.tags.Cerbero);
         
         this.puff3 = this.EntityManager.spawnBeast(elementEarth, EntityManager.tags.Atlas);
 

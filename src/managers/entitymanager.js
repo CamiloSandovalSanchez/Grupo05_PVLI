@@ -2,6 +2,7 @@ import Beast from '../combat/beast.js'
 import HasHealth from "../health/hashealth.js";
 import Element from '../utility/element.js';
 import DeafultAttack from '../attack/defaultattackhandler.js';
+import MultiAttack from '../attack/multiattackhandler.js';
 import AttackInfo from '../utility/attackinfo.js';
 import SpriteContainer from '../render/spritecontainer.js';
 import HealthBar from '../render/filldisplay/healthbar.js';
@@ -50,8 +51,8 @@ export default class EntityManager
         // MUERTE
 
         // LIDERES
-        Janitor: 3,
-        Enemy: 4
+        Janitor: 13,
+        Enemy: 14
     });
     
     // Las exceciones ya son controladas a la hora de tratar de crear una bestia asi que no son necesarias en este manager
@@ -107,6 +108,8 @@ export default class EntityManager
         {
             case (EntityManager.tags.SmokePuff): 
                 return this.#loadSmokePuff();
+            case (EntityManager.tags.Hada): 
+                return this.#loadHada();
             default: 
                 console.error("no se ha encontrado a la bestia de viento");
         }
@@ -120,6 +123,8 @@ export default class EntityManager
                 return this.#loadLavaSlime();
             case (EntityManager.tags.Apolo): 
                 return this.#loadApolo();
+            case (EntityManager.tags.Cerbero): 
+                return this.#loadCerbero();
             default: console.error("no se ha encontrado a la bestia de fuego");
         }
     }
@@ -219,7 +224,7 @@ export default class EntityManager
         let elementWater = new Element(Element.types.WATER);
         return new Beast(
                     new HasHealth(100, 5, elementWater),
-                    new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementWater), 1000),
+                    new DeafultAttack(new AttackInfo(30, AttackInfo.attackTypes.NORMAL, elementWater), 5000),
                     new SpriteContainer(this.#scene, 0, 0, 0.65, 'aquablob', 0),
                     new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
                     new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
@@ -251,11 +256,20 @@ export default class EntityManager
                     new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
                     new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
+    #loadCerbero(){
+        let elementFire = new Element(Element.types.FIRE);
+        return new Beast(
+                    new HasHealth(120, 0, elementFire),//(HP, def)
+                    new MultiAttack(new AttackInfo(20, AttackInfo.attackTypes.NORMAL, elementFire), 5000),//(att)
+                    new SpriteContainer(this.#scene, 0, 0, 0.7, 'cerbero', 0),
+                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
+                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
+    }
     #loadHada(){
         let elementAir = new Element(Element.types.AIR);
         return new Beast(
                     new HasHealth(50, 10, elementAir),
-                    new DeafultAttack(new AttackInfo(5, AttackInfo.attackTypes.NORMAL, elementAir), 1000),
+                    new DeafultAttack(new AttackInfo(5, AttackInfo.attackTypes.NORMAL, elementAir), 5000),
                     new SpriteContainer(this.#scene, 0, 0, 0.7, 'hada', 0),
                     new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
                     new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
