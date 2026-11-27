@@ -6,23 +6,25 @@ export default class SpriteContainer extends Phaser.GameObjects.Container
 
     constructor(scene, x, y, scale, texture, frame)
     {
+        //console.log(scene);
         super(scene, 0, 0);
         scene.add.existing(this);
         this.setScale(scale);
-        const sceneW = this.scene.sys.game.config.width;
-        const sceneH = this.scene.sys.game.config.height;
+        let sceneW = this.scene.sys.game.config.width;
+        let sceneH = this.scene.sys.game.config.height;
         this.x = x*sceneW;
         this.y = y*sceneH;
 
         // Crear el sprite
-        this.#sprite = scene.add.sprite(0, 0
-           
-           
-            , texture, frame);
+        this.#sprite = scene.add.sprite(0, 0, texture, frame);
         this.#sprite.setDisplaySize(200*scale,200*scale);
 
         // Añadirlo a nuestro contenedor
         this.add(this.#sprite); 
+        //this.setVisible(false);
+
+        this.textureForAnim = texture;
+        //console.log(this.#sprite.texture.key);
     }
 
     flipX(bool)
@@ -30,8 +32,11 @@ export default class SpriteContainer extends Phaser.GameObjects.Container
         this.#sprite.flipX = bool;
     }
 
-    update(dt){
-        
+    preUpdate(t, dt){
+        if (this.textureForAnim == 'janitorSheet'){
+            this.#sprite.play("janitor_idle", true);
+            //console.log(this.textureForAnim);
+        }
     }
 
 

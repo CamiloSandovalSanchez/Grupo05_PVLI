@@ -31,10 +31,10 @@ export default class TeamLeader
         else throw new TypeError("Se ha intentado crear un TeamLeader con el parámetro \"attackObject\" sin ser una instancia de AttackHandler");
 
         if (sprite instanceof SpriteContainer) this.#sprite = sprite;
-        else throw new TypeError("Se ha intentado crear una Beast con el parámetro \"sprite\" sin ser instancia de Sprite");
+        else throw new TypeError("Se ha intentado crear un TeamLeader con el parámetro \"sprite\" sin ser instancia de Sprite");
 
         if (healthBar instanceof HealthBar) this.#healthBar = healthBar;
-                else throw new TypeError("Se ha intentado crear una Beast con el parámetro \"healthBar\" sin ser instancia de HealthBar");
+                else throw new TypeError("Se ha intentado crear un TeamLeader con el parámetro \"healthBar\" sin ser instancia de HealthBar");
                 this.#sprite.add(this.#healthBar);
 
         // Suscripción al evento "death" del lifeObject.
@@ -43,14 +43,15 @@ export default class TeamLeader
         attackObject.addEventListener("attack",(event) => this.onAttack(event));
 
         this.#sprite.setDepth(2);
+        this.leaderAnimCooldowns = [0, 0, 0]; //(idle, attack, hurt)
     }
 
     setPentagon(pentagon)
     {
         if (pentagon instanceof Pentagon) {
             this.#pentagon = pentagon;
-            this.#sprite.x = this.#pentagon.getSpriteX();
-            this.#sprite.y = this.#pentagon.getSpriteY();
+            this.#sprite.x += this.#pentagon.getSpriteX();
+            this.#sprite.y += this.#pentagon.getSpriteY();
             if (!this.#isPlayer) this.#sprite.flipX(true);
         }
         else throw new TypeError("Se ha intentado asignar a un TeamLeader con el parámetro \"pentagon\" sin ser una instancia de Pentagon");
@@ -68,6 +69,7 @@ export default class TeamLeader
     update(dt)
     {
         this.#attackObject.updateBuildup(dt);
+        this.updateAnimations();
     }
 
     // Método para recibir desde el pentágono un ataque y procesarlo.
@@ -132,5 +134,32 @@ export default class TeamLeader
             else console.error("Una Beast ha intentado atacar antes de recibir el setRivalPentagon(). No podrá atacar.");
         }
         else console.error("Una Beast no ha recibido un objeto AttackInfo en la escucha onAttack. No podrá acabar de atacar");
+    }
+    
+    updateAnimations()
+    {
+        for(let i = 0; i<this.leaderAnimCooldowns.length; ++i){ 
+            if (this.leaderAnimCooldowns[i] > 0) this.leaderAnimCooldowns[i]--;
+        }
+        
+        if(this.leaderAnimCooldowns[2] > 0){
+            this.#sprite.hurtAnimation(this.leaderAnimCooldowns[2]);
+        }
+        else if(this.leaderAnimCooldowns[1] > 0){
+            this.#sprite.attackAnimation(this.leaderAnimCooldowns[1]);
+        }
+        else if(this.leaderAnimCooldowns[0] > 0){
+            
+            this.#sprite.idleAnimation(this.leaderAnimCooldowns[0]);
+            
+        }
+        else this.activateanim(0, 500);
+    }
+
+    activateanim(animIndex, duration){
+        for(let i = 0; i<this.leaderAnimCooldowns.length; ++i){ 
+            this.leaderAnimCooldowns[i] = 0;
+        }
+        this.leaderAnimCooldowns[animIndex] += duration;
     }
 }

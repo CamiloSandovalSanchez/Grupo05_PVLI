@@ -37,7 +37,7 @@ import menuButton from '../render/menubutton.js';
         );
         this.backbutton = new menuButton("Back to menu", this, 0.125, 0.1, 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
         
-        this.backbutton.setScene('mainmenu');
+        this.backbutton.setFuncionality('mainmenu');
         
 
     }

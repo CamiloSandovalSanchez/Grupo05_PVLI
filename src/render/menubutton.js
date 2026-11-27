@@ -4,6 +4,7 @@ export default class MenuButton extends Phaser.GameObjects.Container
     
     // Variables de la clase:
     #buttonText; // Texto del boton
+    #buttonCallback; // Texto del boton
     #targetScene; // Escena objetivo a la que cambia al presionar
     #roundRect; // Rectangulo de color custom
     #color; // Rectangulo de color custom
@@ -41,9 +42,11 @@ export default class MenuButton extends Phaser.GameObjects.Container
         this.mouseOverBool = false;//Bool de comprobación para sincronizar los inputs con el update
 
         //Inputs de ratón
+
         this.#roundRect.setInteractive({ useHandCursor: true});
 
         this.#roundRect.on('pointerdown', () =>{
+            if (this.#buttonCallback != null) this.#buttonCallback();
             if(this.#targetScene != null){
                 this.scene.scene.start(this.#targetScene);
             }
@@ -60,9 +63,10 @@ export default class MenuButton extends Phaser.GameObjects.Container
     }
 
     // Establecer el porcentaje de sprite que se muestra
-    setScene(name)
+    setFuncionality(name = null, callback = null)
     {
         this.#targetScene = name;
+        this.#buttonCallback = callback;
     }
 
     update(dt){

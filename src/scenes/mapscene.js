@@ -1,12 +1,22 @@
+import RivalInfo from "../utility/rivalinfo.js";
+import PosibleRivals from "../utility/posiblerivals.js";
 
  // Esta clase contiene la pantalla del mapa y sus menus de recompensas
  export default class mapScene extends Phaser.Scene{
         
+    //#ListaRivales
+
     // Se ejecuta al crear la escena por primera vez
     constructor()
     {
         // Permite abrir el mapa con this.scene.start
         super({key: 'mapScene'});
+
+
+        //Nos aseguramos de que solo se cree una vez esta información de rivales,
+        //sería muy poco eficiente generarla cada vez que se crea a la escena
+        this.ListaRivales = new PosibleRivals(this);
+
     }
 
     // Phaser llama a preload antes de create para cargar los archivos
@@ -19,22 +29,23 @@
     // Prepara el mapa cada vez que entramos en esta escena
     // Datos contiene lo que mande la escena anterior. Si no manda nada, usamos un objeto vacio
     create(datos = {}) {
-
+        
+        
         // Aqui buscamos el nivel, la XP, las almas y el premio pendiente
         let aura = this.registry.get('aura');
 
         // Si todavia no hay datos de aura, creamos los valores de una partida nueva
         if (!aura) {
-        aura = {
-            // Empieza en nivel 1
-            nivel: 1,
-            // XP acumulada hacia el siguiente nivel
-            experiencia: 0,
-            // Cantidad de almas
-            almas: 0,
-            // Sera true cuando haya ganado el premio especial
-            seleccionTier3Pendiente: false
-        };
+            aura = {
+                // Empieza en nivel 1
+                nivel: 1,
+                // XP acumulada hacia el siguiente nivel
+                experiencia: 0,
+                // Cantidad de almas
+                almas: 0,
+                // Sera true cuando haya ganado el premio especial
+                seleccionTier3Pendiente: false
+            };
 
             // Guarda el estado del aura
             this.registry.set('aura', aura);
@@ -128,6 +139,8 @@
             alto: alto / fondo.height * altoMapa,
             salidas
         }));
+
+        console.log("casillas hechas");
     
         // Recupera los encuentros ya sorteados
         let encuentrosDelMapa = this.registry.get('encuentrosMapa1');
@@ -139,11 +152,11 @@
 
             // Cada tier tiene su propia lista de rivales de prueba
             // QUEDA HACER LOS COMBATES DE VERDAD
-            const rivalesPorTier = {
+            /*const rivalesPorTier = {
                 1: Array.from({ length: 12 }, (_, i) => 'Rival T1-' + (i + 1)),
                 2: Array.from({ length: 8 }, (_, i) => 'Rival T2-' + (i + 1)),
                 3: Array.from({ length: 5 }, (_, i) => 'Rival T3-' + (i + 1))
-            };
+            };*/
         
             // Este objeto guardara el encuentro correspondiente a cada ID de casilla
             encuentrosDelMapa = {};
@@ -179,18 +192,26 @@
                 
                     // Obtiene la lista de rivales del tier de esta casilla
                     // QUEDA HACER LOS COMBATES DE VERDAD
-                   const disponibles = rivalesPorTier[encuentro.tier];
+                    const rivalesNTier = this.ListaRivales.getNTierArray(encuentro.tier);
 
+                   
                     // Sortea una posicion de la lista (Mejorable)
-                    const indice = Math.floor(Math.random() * disponibles.length);
+                    let disponible = false;
+                    let subIndex = 0;
+                    //while(!disponible){
+                        let indice = Math.floor(Math.random() * (rivalesNTier.length - 1));
+                        disponible = rivalesNTier[indice][1];
+                    //    rivalesNTier[indice][1] = false;
+                        subIndex = indice;
+                        //console.log("dentro");
+                        //console.log("indice:" + indice);
+                    //}
 
                     // Guarda el enemigo de esa posicion
-                    encuentro.nombre = disponibles[indice];
+                    encuentro.nombre = this.ListaRivales.getLeaderName(encuentro.tier, subIndex);
 
-                    // Conserva todos los enemigos excepto el que hemos elegido
-                    rivalesPorTier[encuentro.tier] = disponibles.filter(
-                        (enemigo) => enemigo !== encuentro.nombre
-);
+                    encuentro.rivalInfo = rivalesNTier[subIndex][0];
+ 
                 }
             
                 // Guarda este encuentro usando el ID de la casilla como nombre
@@ -304,6 +325,7 @@
             panelX + 12, panelY + 40, 196, 12, 0xaa44ff
         ).setOrigin(0, 0).setScrollFactor(0).setDepth(12);
 
+        console.log("quedan metodos");
         // Actualiza el texto y la barra con los valores guardados.
         this.actualizarInterfazAura();
         // Si acabamos de volver de una batalla, concede su XP y prepara la eleccion de bestia.

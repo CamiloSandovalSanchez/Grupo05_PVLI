@@ -1,3 +1,6 @@
+import MenuButton from "../render/menubutton.js";
+import genCombat from "./gencombat.js";
+
 // Pantalla provisional que muestra el rival mientras se conecta el combate real.
 // En esta prueba, pulsar Volver al mapa cuenta como terminar el combate.
 export default class encounterScene extends Phaser.Scene {
@@ -41,6 +44,64 @@ export default class encounterScene extends Phaser.Scene {
         // Debajo muestra el nombre del rival asignado a esta casilla.
         this.add.text(40, 90, encuentro.nombre, { fontSize: '22px' });
 
+        let funcButton = 
+        this.buttonMapa = new MenuButton("Volver al mapa", this, 0.25, 0.4, 0.36, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.buttonMapa.setFuncionality(null,  
+            function()
+            {
+                if ((this instanceof MenuButton)){
+                    if (encuentro.tipo === 'Combate') {
+                        // Usa la casilla que envio el mapa. Si falta, recupera la ultima posicion guardada.
+                        const casillaId = datos.casillaId || this.registry.get('progresoMapa');
+                        // Vuelve al mapa y le envia el aviso de combate terminado.
+                        this.scene.scene.start('mapScene', {
+                            // Este aviso permite que el mapa conceda XP y muestre la eleccion de bestias.
+                            // { casillaId } es una forma corta de guardar la variable con su mismo nombre.
+                            combateCompletado: { casillaId }
+                        });
+                    // En el caso del jefe vuelve al mapa sin enviar la recompensa normal de combate.
+                    } else {
+                        // Abre de nuevo el mapa.
+                        this.scene.scene.start('mapScene');
+                    }
+                }
+            }
+        );
+        
+        this.buttonCombate = new MenuButton("COMBAT", this, 0.75, 0.4, 0.36, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
+        this.buttonCombate.setFuncionality(null, 
+            function(datosButton = datos)
+            {
+                console.log(datosButton);
+                if ((this instanceof MenuButton)){
+                    this.scene.scene.start(
+                        'genCombat', 
+                        datosButton.encuentro.rivalInfo, 
+                        /*function()
+                        {
+                            if ((this instanceof MenuButton)){
+                                if (encuentro.tipo === 'Combate') {
+                                    // Usa la casilla que envio el mapa. Si falta, recupera la ultima posicion guardada.
+                                    const casillaId = datos.casillaId || this.registry.get('progresoMapa');
+                                    // Vuelve al mapa y le envia el aviso de combate terminado.
+                                    this.scene.scene.start('mapScene', {
+                                        // Este aviso permite que el mapa conceda XP y muestre la eleccion de bestias.
+                                        // { casillaId } es una forma corta de guardar la variable con su mismo nombre.
+                                        combateCompletado: { casillaId }
+                                    });
+                                // En el caso del jefe vuelve al mapa sin enviar la recompensa normal de combate.
+                                } else {
+                                    // Abre de nuevo el mapa.
+                                    this.scene.scene.start('mapScene');
+                                }
+                            }
+                        }*/
+                    );
+                }
+            }
+        );
+
+        /*
         // Crea el rectangulo morado del boton en 150, 240 con ancho 220 y alto 50.
         const botonVolver = this.add.rectangle(150, 240, 220, 50, 0x880099);
         // Permite pulsarlo y muestra una mano al poner el raton encima.
@@ -76,6 +137,7 @@ export default class encounterScene extends Phaser.Scene {
                 // Abre de nuevo el mapa.
                 this.scene.start('mapScene');
             }
-        });
+        });*/
     }
 }
+
