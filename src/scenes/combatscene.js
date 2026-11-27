@@ -10,6 +10,7 @@ import Element from '../utility/element.js';
 import EntityManager from '../managers/entitymanager.js';
 import GameManager from '../managers/gamemanager.js';
 import menuButton from '../render/menubutton.js';
+import RivalInfo from '../utility/rivalinfo.js';
 
 
  export default class combatScene extends Phaser.Scene{
@@ -34,30 +35,39 @@ import menuButton from '../render/menubutton.js';
         this.GameManager = new GameManager(this);
         let elementAir = new Element(Element.types.AIR);
         let elementWater = new Element(Element.types.WATER);
+        let elementFire = new Element(Element.types.FIRE);
+        let elementEarth = new Element(Element.types.EARTH);
+        let elementElectric = new Element(Element.types.ELECTRIC);
+        let elementLife = new Element(Element.types.LIFE);
+        let elementDeath = new Element(Element.types.DEATH);
         //let attackInfo = new AttackInfo(50, AttackInfo.attackTypes.NORMAL, elementAir);
         
-        
+        /*
         this.puff1 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
-        this.puff2 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff2 = this.EntityManager.spawnBeast(elementFire, EntityManager.tags.Cerbero);
         
-        this.puff3 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff3 = this.EntityManager.spawnBeast(elementEarth, EntityManager.tags.Atlas);
 
-        this.puff4 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff4 = this.EntityManager.spawnBeast(elementWater, EntityManager.tags.Sirena);
 
-        this.puff5 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff5 = this.EntityManager.spawnBeast(elementElectric, EntityManager.tags.LightningSpirit);
         
         this.leader1 = this.EntityManager.spawnLeader(EntityManager.tags.Janitor);
-        
+        */
 
-        this.pentagon1 = new Pentagon(this.puff1, this.puff2, this.puff3, this.puff4, this.puff5, this.leader1,
-            new SpriteContainer(this, 0.25, 0.5, 1, 'pent', 0), 
-            new RotateButton(this, -0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
-            new RotateButton(this, 0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40})
+
+        this.rival = new RivalInfo(this, 1, "Janitor", "Apolo", "BarcoPirata", "LavaSlime", "Atlas", "Sirena");
+        this.rival.buildRivalConfig();
+
+        this.pentagon1 = new Pentagon(this.rival.getBeast(0), this.rival.getBeast(1), this.rival.getBeast(2), this.rival.getBeast(3), this.rival.getBeast(4), this.rival.getLeader(),
+            new SpriteContainer(this, 0.28, 0.65, 1, 'pent', 0), 
+            new RotateButton(this, -0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
+            new RotateButton(this, 0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40})
         );
             
 
-        this.puff6 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
+        this.puff6 = this.EntityManager.spawnBeast(elementEarth, EntityManager.tags.Golem);
         
         this.puff7 = this.EntityManager.spawnBeast(elementAir, EntityManager.tags.SmokePuff);
 
@@ -70,9 +80,9 @@ import menuButton from '../render/menubutton.js';
         this.leader2 = this.EntityManager.spawnLeader(EntityManager.tags.Enemy);
 
         this.pentagon2 = new Pentagon(this.puff6, this.puff7, this.puff8, this.puff9, this.puff10, this.leader2,
-            new SpriteContainer(this, 0.75, 0.5, 1, 'pent', 0),
-            new RotateButton(this, -0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
-            new RotateButton(this, 0.09, 0.35, 0.6, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40}),
+            new SpriteContainer(this, 0.72, 0.65, 1, 'pent', 0),
+            new RotateButton(this, -0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CCW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, false, {textLeftMargin: 40, textRightMargin: 40}),
+            new RotateButton(this, 0.1, 0.25, 0.4, 'rotatebuttonBG', 0, 'rotatebuttonFILL', 0, 'rotatebuttonFG_CW', 0, 0, Pentagon.DEFAULT_ROTATIONCOOLDOWN, true, {textLeftMargin: 40, textRightMargin: 40}),
         );
 
         this.pentagon1.setRivalPentagon(this.pentagon2);
@@ -80,7 +90,7 @@ import menuButton from '../render/menubutton.js';
 
         this.backButton = new menuButton("Back to menu", this, 0.125, 0.05, 0.25, 0x880099, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
         
-        this.backButton.setScene('mainmenu');
+        this.backButton.setFuncionality('mainmenu');
         
         //this.pentagon1.setBeastAnimations(this);
         //this.pentagon2.setBeastAnimations(this);

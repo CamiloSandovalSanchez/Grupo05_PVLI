@@ -22,6 +22,8 @@ import menuButton from '../render/menubutton.js';
 		this.load.image('atlas', './assets/criaturas/atlas_jtr.png');
 		this.load.image('barco', './assets/criaturas/barcopirata_jtr.png');
 		this.load.image('apolo', './assets/criaturas/apolo_dios_de_sol_jtr.png');
+		this.load.image('hecaton', './assets/criaturas/hecatonquiros_jtr.png');
+		this.load.image('medusa', './assets/criaturas/medusa_jtr.png');
 
 
         this.load.image('logo', './assets/logo_janitortherotator.png');
@@ -39,13 +41,32 @@ import menuButton from '../render/menubutton.js';
         this.load.image('rotatebuttonFILL', './assets/rotate_button/rotatebutton_fill.png');
         this.load.image('rotatebuttonFG_CW', './assets/rotate_button/rotatebutton_clockwise_foreground.png');
         this.load.image('rotatebuttonFG_CCW', './assets/rotate_button/rotatebutton_counterclockwise_foreground.png');
+
+        this.load.spritesheet('janitorSheet', './assets/janitor_1.png', {
+            frameWidth: 1200,
+            frameHeight: 1440
+        });
 	}
 
     create()
     {
-        var bgImage = this.add.image(0,0,'fondo').setOrigin(0,0);
-        bgImage.setScale(0.288);
-        this.add.rectangle( 0, 0, 800, 600, 0x320045, 0.5).setOrigin(0,0);
+        this.createAnims();
+
+        const datosPartida = [
+            'aura',
+            'progresoMapa',
+            'encuentrosMapa1',
+            'recompensasCombateMapa1',
+            'bestiasRecompensadas'
+        ];
+
+        for (const clave of datosPartida) {
+            this.registry.remove(clave);
+        }
+
+        this.bgImage = this.add.image(0,0,'fondo').setOrigin(0,0);
+        this.bgImage.setScale(0.288);
+        this.bgtransp = this.add.rectangle( 0, 0, 800, 600, 0x320045, 0.35).setOrigin(0,0);
 
         this.logoImage= this.add.sprite(400,125,'logo');
         this.logoImage.setScale(0.5);
@@ -55,16 +76,16 @@ import menuButton from '../render/menubutton.js';
 
 
         this.startButton = new menuButton("START", this, 0.5, 0.6, 0.4, 0xff00ff, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        this.startButton.setScene('combatScene');
+        this.startButton.setFuncionality('combatScene');
 
         this.mapButton = new menuButton("MAP", this, 0.5, 0.75, 0.4, 0xcd00cd, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        this.mapButton.setScene('mapScene');
+        this.mapButton.setFuncionality('mapScene');
 
         this.creditButton = new menuButton("CREDITOS", this, 0.5, 0.9, 0.4, 0xaa00bb, {fontFamily: 'Georgia, "Times New Roman", Times, serif'});
-        this.creditButton.setScene('creditScene');
+        this.creditButton.setFuncionality('creditScene');
         
 
-        this.menuAnimations();
+        this.menuTweens();
     }
 
     update(t, dt)
@@ -73,16 +94,34 @@ import menuButton from '../render/menubutton.js';
         this.mapButton.update(dt);
         this.creditButton.update(dt);
     }
+    
+    createAnims(){ //Esto mejor en una escena de boot, donde vaya a ejecutarse una única vez.
+ 
+        this.anims.create({
+            key: "janitor_idle",
+            frames: this.anims.generateFrameNumbers("janitorSheet", { start: 0, end: 5 }),
+            frameRate: 6,
+            repeat: -1
+        }); 
+    }
 
-    menuAnimations(){
+    menuTweens(){
 		this.tweens.add({
 	    	targets: this.logoImage,
 	    	tint: 0xffffff,
-	    	y: '+=15',
+	    	y: '+=5',
 	    	scale: '*=1.05',
-	    	rotation: '+=0.25',//radianes
-	    	duration: 2000,
-	    	ease: 'linear',
+	    	rotation: '+=0.05',//radianes
+	    	duration: 3000,
+	    	ease: 'Sine.easeInOut',
+	    	yoyo: true, 
+            repeat: -1
+	    });
+		this.tweens.add({
+	    	targets: this.bgtransp,
+            alpha: 0.27,
+	    	duration: 4000,
+	    	ease: 'Sine.easeInOut',
 	    	yoyo: true, 
             repeat: -1
 	    });
@@ -90,8 +129,6 @@ import menuButton from '../render/menubutton.js';
 	    	targets: this.startButton,
 	    	tint: 0xffffff,
 	    	y: '+=5',
-	    	//scale: '*=1.05',
-	    	//rotation: '-=0.15',//radianes
 	    	duration: 2000,
 	    	ease: 'linear',
 	    	yoyo: true, 
@@ -101,9 +138,7 @@ import menuButton from '../render/menubutton.js';
 	    	targets: this.mapButton,
 	    	tint: 0xffffff,
 	    	y: '+=5',
-	    	//scale: '*=1.05',
-	    	//rotation: '+=0.15',//radianes
-	    	duration: 1800,
+	    	duration: 2000,
 	    	ease: 'linear',
 	    	yoyo: true, 
             repeat: -1
@@ -112,8 +147,6 @@ import menuButton from '../render/menubutton.js';
 	    	targets: this.creditButton,
 	    	tint: 0xffffff,
 	    	y: '+=5',
-	    	//scale: '*=1.05',
-	    	//rotation: '-=0.15',//radianes
 	    	duration: 2000,
 	    	ease: 'linear',
 	    	yoyo: true, 
