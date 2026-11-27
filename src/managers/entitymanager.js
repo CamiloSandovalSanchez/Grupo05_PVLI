@@ -375,15 +375,6 @@ export default class EntityManager
                     new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
                     new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
     }
-    #loadCerbero(){
-        let elementFire = new Element(Element.types.FIRE);
-        return new Beast(
-                    new HasHealth(45, 5, elementFire),
-                    new DeafultAttack(new AttackInfo(10, AttackInfo.attackTypes.NORMAL, elementFire), 1000),
-                    new SpriteContainer(this.#scene, 0, 0, 0.75, 'cerbero', 0),
-                    new HealthBar(this.#scene, 0, -75, 'healthbarBG', 0, 'healthbarFILL', 0, 100, 100),
-                    new BuildupBar(this.#scene, 0, 75, 'buildupbarBG', 0, 'buildupbarFILL', 0, 0, 5));
-    }
 
     beastTagfromString(string){
         return EntityManager.tags[string];
