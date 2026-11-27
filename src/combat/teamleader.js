@@ -102,12 +102,14 @@ export default class TeamLeader
     {
         let deathInfo = event.detail; // Creamos el evento
         deathInfo.setIsLeader(true); // somos Líder
-        if (deathInfo instanceof DeathInfo){
-        // Se envia un evento "global" de la escena
-        this.#sprite.scene.events.emit('death', deathInfo);
+            
+        // Se llama al evento de muerte
+         if (deathInfo instanceof DeathInfo){
+            // Se envia un evento "global" de la escena
+            this.#sprite.scene.events.emit('death', deathInfo);
         }
         else console.error("El líder no ha recibido un objeto DeathInfo en la escucha onDeath. No se podrá lanzar el evento");
-        
+
         this.#sprite.deathAnimation();
         this.#sprite.scene.time.addEvent( // esperar a que se vea la animación para borrar el objeto
         {
